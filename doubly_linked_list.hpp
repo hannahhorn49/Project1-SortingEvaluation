@@ -6,16 +6,16 @@ class DoublyLinkedList{
         DLLNode *head;
         DLLNode *tail;
         //basic outline: will change parameters/names and such 
-        void merge_sort();
-        void quick_sort();
-        void merge();
+        void merge_sort(DLLNode *dllnode);
+        void quick_sort(DLLNode *head);
+        void merge(DLLNode *one_node, DLLNode *two_node);
 
 
     public:
         //basic outline: will fix them further down the road
         void merge_sort(DLLNode *head);
         void quick_sort();
-        void insertion_sort();
+        void insertion_sort(DLLNode *head);
 
         DLLNode *get_head(){ return head;}
         DLLNode *get_tail(){ return tail;}

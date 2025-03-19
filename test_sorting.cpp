@@ -78,3 +78,44 @@ bool test_vector_quick_sort()
     // clean up
     return true;
 }
+
+bool test_vector_insertion_sort()
+{
+    //set up: 
+    //case 1 (empty vector):
+    std::vector<int> emptyVec;
+
+    //case 2 (vector with one element)
+    std::vector<int> one_element_vec{3};
+    std::vector<int> expected_one{3};
+
+    //rest of cases 
+    std::vector<int> my_vec1{3,4,5,6};
+    std::vector<int> exp_vec1{3,4,5,6};
+
+    //std::vector<int> my_vec2{8,8,8,8,8};
+    //std::vector<int> exp_vec2{8,8,8,8}; //to test same values!
+    
+    std::vector<int> my_vec3{3,4,2,1};
+    std::vector<int> exp_vec3{1,2,3,4};
+
+    //EXECUTION 
+    VectorSorter::insertion_sort(my_vec1);
+    //VectorSorter::insertion_sort(my_vec2);
+    VectorSorter::insertion_sort(my_vec3);
+
+    //VALIDATION 
+    assert(emptyVec.size() == 0);
+    assert(one_element_vec == expected_one);
+    assert(my_vec1 == exp_vec1);
+    //assert(my_vec2 == exp_vec2);
+    assert(my_vec3 == exp_vec3);
+    return true;
+}
+
+int main()
+{
+    test_vector_merge_sort();
+    test_vector_quick_sort();
+    test_vector_insertion_sort();
+}
