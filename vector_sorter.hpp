@@ -18,8 +18,6 @@ private:
 
     // these are the private helper functions for quick sort
     static void quick_sort_helper(std::vector<int> &vec, int left, int right);
-    // returns int bc returns new index of the pivot element
-    static int partition(std::vector<int> &vec, int left, int right);
 };
 
 #endif
