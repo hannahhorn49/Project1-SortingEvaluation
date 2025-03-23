@@ -1,6 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include "vector_sorter.hpp"
+#include "doubly_linked_list.hpp"
 
 bool test_vector_merge_sort()
 {
@@ -117,10 +118,42 @@ bool test_vector_insertion_sort()
 
 bool test_list_merge_sort(){
     //1. set up 
+    DoublyLinkedList l;
+    DoublyLinkedList empty;
+    DoublyLinkedList oneItem;
+
+    l.push_back(5);
+    l.push_back(2);
+    l.push_back(10);
+    l.push_back(8);
+
+    oneItem.push_back(64);
+
+    DLLNode* l_head = l.get_head();
+    DLLNode* empty_head = empty.get_head();
+    DLLNode* oneItem_head = oneItem.get_head();
 
     //2. execution 
-
+    DLLNode *test1 = l.DoublyLinkedList::DLL_merge_sort(l_head);
+    DLLNode *test2 = empty.DoublyLinkedList::DLL_merge_sort(empty_head);
+    DLLNode *test3 = oneItem.DoublyLinkedList::DLL_merge_sort(oneItem_head);
+    
+    
     //3. validation 
+    assert(l_head->value == 2);
+    assert(l_head->next->value == 5);
+    assert(l_head->next->next->value == 8);
+    assert(l_head->next->next->next->value == 10);
+    assert(l_head->next->next->next->next == nullptr);
+    DLLNode* l_tail = l.get_tail();
+    assert(l_tail->value == 10);
+
+    assert(empty.get_head() == nullptr);
+    assert(empty.get_tail() == nullptr);
+
+    assert(oneItem.get_head()->value == 64);
+    assert(oneItem.get_head()->prev == nullptr);
+    assert(oneItem.get_head()->next == nullptr);
 
     //4. clean up
     return true;
