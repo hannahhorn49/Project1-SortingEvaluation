@@ -207,6 +207,7 @@ void VectorSorter::insertion_sort(std::vector<int> &vec)
     {
         
     }
+    //everything else: incldues the vectors with same numbers 
     else{
         for (int i = 1; i < vec.size(); i++)
         {
