@@ -4,3 +4,8 @@
 - testing sorting (both data types)
 - testing the evaluator
 - running the evaluation
+
+**note: as of 3/21 to run main.cpp need to do this command:**
+
+g++ -std=c++11 -o test_evaluator evaluator.cpp test_evaluator.cpp main.cpp test_sorting.cpp vector_sorter.cpp
+./test_evaluator
