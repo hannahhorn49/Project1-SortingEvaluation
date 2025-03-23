@@ -93,29 +93,35 @@ bool test_vector_insertion_sort()
     std::vector<int> my_vec1{3,4,5,6};
     std::vector<int> exp_vec1{3,4,5,6};
 
-    //std::vector<int> my_vec2{8,8,8,8,8};
-    //std::vector<int> exp_vec2{8,8,8,8}; //to test same values!
+    std::vector<int> my_vec2{8,5,6,8,8};
+    std::vector<int> exp_vec2{5,6,8,8,8}; //to test same values!
     
     std::vector<int> my_vec3{3,4,2,1};
     std::vector<int> exp_vec3{1,2,3,4};
 
     //EXECUTION 
     VectorSorter::insertion_sort(my_vec1);
-    //VectorSorter::insertion_sort(my_vec2);
+    VectorSorter::insertion_sort(my_vec2);
     VectorSorter::insertion_sort(my_vec3);
 
     //VALIDATION 
     assert(emptyVec.size() == 0);
     assert(one_element_vec == expected_one);
     assert(my_vec1 == exp_vec1);
-    //assert(my_vec2 == exp_vec2);
+    assert(my_vec2 == exp_vec2);
     assert(my_vec3 == exp_vec3);
+    
+    //clean up
     return true;
 }
 
-int main()
-{
-    test_vector_merge_sort();
-    test_vector_quick_sort();
-    test_vector_insertion_sort();
+bool test_list_merge_sort(){
+    //1. set up 
+
+    //2. execution 
+
+    //3. validation 
+
+    //4. clean up
+    return true;
 }
