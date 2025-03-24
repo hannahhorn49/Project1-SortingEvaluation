@@ -130,7 +130,52 @@ void Evaluator::QuickComparison()
     std::cout << "--- QuickComparison Completed ---\n\n";
 }
 
-void ::Evaluator::InsertionComparison()
+void Evaluator::InsertionComparison()
 {
-    // need to implement
+    std::cout << "\n--- Starting InsertionComparison ---\n";
+
+    for (size_t i = 0; i < testVectors.size(); ++i)
+    {
+        auto &vec = testVectors[i]; // get a reference to the vector in testVectors
+
+        std::vector<int> vecCopy = vec; // copy the vector to preserve original data
+
+        std::cout << "Original vector " << i << ": { ";
+        for (int num : vec)
+            std::cout << num << " ";
+        std::cout << "}\n";
+
+        // timer start
+        auto start = std::chrono::high_resolution_clock::now();
+
+        VectorSorter::insertion_sort(vecCopy); // sort the copy by calling function
+
+        // timer end
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> duration = end - start;
+        double timeTaken = duration.count();
+
+        timingData.push_back({timeTaken}); // we store the time taken for this sort
+
+        std::cout << "Sorted vector " << i << ": { ";
+        for (int num : vecCopy)
+            std::cout << num << " ";
+        std::cout << "} Time: " << timeTaken << " ms\n";
+
+        testVectors[i] = vecCopy; // this updates the original vector in testVectors with the sorted one
+    }
+    std::cout << "---InsertionComparison Completed ---\n\n";
+}
+
+void Evaluator::Evaluate()
+{
+    // need to implement here
+    // before we implement, probably need to differentiate how we store timing data for vectors and linked lists
+    // could output something like this??
+    //     Test Case           Format              Merge Sort (ms)     Quick Sort (ms)     Insertion Sort (ms)
+    // ----------------------------------------------------------------------------------------------------
+    // testcase0           Vector              0.009167            0.008166            0.000333
+    // testcase0           Linked List         0.012750            0.010166            0.000375
+    // testcase1           Vector              0.008292            0.007875            0.000250
+    // testcase1           Linked List         0.012959            0.010667            0.000333
 }
