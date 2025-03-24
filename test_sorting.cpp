@@ -134,9 +134,9 @@ bool test_list_merge_sort(){
     DLLNode* oneItem_head = oneItem.get_head();
 
     //2. execution 
-    DLLNode *test1 = l.DoublyLinkedList::DLL_merge_sort(l_head);
-    DLLNode *test2 = empty.DoublyLinkedList::DLL_merge_sort(empty_head);
-    DLLNode *test3 = oneItem.DoublyLinkedList::DLL_merge_sort(oneItem_head);
+    DoublyLinkedList::DLL_merge_sort(l_head);
+    DoublyLinkedList::DLL_merge_sort(empty_head);
+    DoublyLinkedList::DLL_merge_sort(oneItem_head);
     
     
     //3. validation 
