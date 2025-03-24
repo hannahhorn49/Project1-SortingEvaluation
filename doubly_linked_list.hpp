@@ -31,7 +31,7 @@ class DoublyLinkedList{
     public:
         //basic outline: will fix them further down the road
         DoublyLinkedList();
-        DLLNode* DLL_merge_sort(DLLNode *one_head);
+        DLLNode* DLL_merge_sort(DLLNode *head);
         void quick_sort();
         void insertion_sort(DLLNode *head);
 
@@ -39,9 +39,7 @@ class DoublyLinkedList{
         DLLNode *get_head(){ return head;}
         DLLNode *get_tail(){ return tail;}
 
-        void update_head_tail(DLLNode *new_head);
         void push_back(int v);
-        void print_list();
 
 
 
