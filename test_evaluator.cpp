@@ -194,6 +194,7 @@ bool testInsertionComparison()
 
 void testEvaluate()
 {
+    // do we need a test function to print out a table??
     // set up
 
     // execution

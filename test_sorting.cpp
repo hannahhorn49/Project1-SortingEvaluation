@@ -82,42 +82,43 @@ bool test_vector_quick_sort()
 
 bool test_vector_insertion_sort()
 {
-    //set up: 
-    //case 1 (empty vector):
+    // set up:
+    // case 1 (empty vector):
     std::vector<int> emptyVec;
 
-    //case 2 (vector with one element)
+    // case 2 (vector with one element)
     std::vector<int> one_element_vec{3};
     std::vector<int> expected_one{3};
 
-    //rest of cases 
-    std::vector<int> my_vec1{3,4,5,6};
-    std::vector<int> exp_vec1{3,4,5,6};
+    // rest of cases
+    std::vector<int> my_vec1{3, 4, 5, 6};
+    std::vector<int> exp_vec1{3, 4, 5, 6};
 
-    std::vector<int> my_vec2{8,5,6,8,8};
-    std::vector<int> exp_vec2{5,6,8,8,8}; //to test same values!
-    
-    std::vector<int> my_vec3{3,4,2,1};
-    std::vector<int> exp_vec3{1,2,3,4};
+    std::vector<int> my_vec2{8, 5, 6, 8, 8};
+    std::vector<int> exp_vec2{5, 6, 8, 8, 8}; // to test same values!
 
-    //EXECUTION 
+    std::vector<int> my_vec3{3, 4, 2, 1};
+    std::vector<int> exp_vec3{1, 2, 3, 4};
+
+    // EXECUTION
     VectorSorter::insertion_sort(my_vec1);
     VectorSorter::insertion_sort(my_vec2);
     VectorSorter::insertion_sort(my_vec3);
 
-    //VALIDATION 
+    // VALIDATION
     assert(emptyVec.size() == 0);
     assert(one_element_vec == expected_one);
     assert(my_vec1 == exp_vec1);
     assert(my_vec2 == exp_vec2);
     assert(my_vec3 == exp_vec3);
-    
-    //clean up
+
+    // clean up
     return true;
 }
 
-bool test_list_merge_sort(){
-    //1. set up 
+bool test_list_merge_sort()
+{
+    // 1. set up
     DoublyLinkedList l;
     DoublyLinkedList empty;
     DoublyLinkedList oneItem;
@@ -129,23 +130,22 @@ bool test_list_merge_sort(){
 
     oneItem.push_back(64);
 
-    DLLNode* l_head = l.get_head();
-    DLLNode* empty_head = empty.get_head();
-    DLLNode* oneItem_head = oneItem.get_head();
+    DLLNode *l_head = l.get_head();
+    DLLNode *empty_head = empty.get_head();
+    DLLNode *oneItem_head = oneItem.get_head();
 
-    //2. execution 
+    // 2. execution
     DoublyLinkedList::DLL_merge_sort(l_head);
     DoublyLinkedList::DLL_merge_sort(empty_head);
     DoublyLinkedList::DLL_merge_sort(oneItem_head);
-    
-    
-    //3. validation 
+
+    // 3. validation
     assert(l_head->value == 2);
     assert(l_head->next->value == 5);
     assert(l_head->next->next->value == 8);
     assert(l_head->next->next->next->value == 10);
     assert(l_head->next->next->next->next == nullptr);
-    DLLNode* l_tail = l.get_tail();
+    DLLNode *l_tail = l.get_tail();
     assert(l_tail->value == 10);
 
     assert(empty.get_head() == nullptr);
@@ -155,6 +155,6 @@ bool test_list_merge_sort(){
     assert(oneItem.get_head()->prev == nullptr);
     assert(oneItem.get_head()->next == nullptr);
 
-    //4. clean up
+    // 4. clean up
     return true;
 }
