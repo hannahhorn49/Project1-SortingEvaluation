@@ -5,6 +5,7 @@
 bool test_vector_merge_sort();
 bool test_vector_quick_sort();
 bool testIngest();
+bool testMergeComparison();
 
 int main()
 {
@@ -16,6 +17,9 @@ int main()
 
     if (testIngest())
         std::cout << "Test Ingest passed!\n";
+
+    if (testMergeComparison())
+        std::cout << "MergeComparison test passed!!\n";
 
     return 0;
 }

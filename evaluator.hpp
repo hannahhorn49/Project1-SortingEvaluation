@@ -17,6 +17,8 @@ private:
 
 public:
     const std::vector<std::vector<int>> &getTestVectors() const { return testVectors; }
+    const std::vector<std::vector<double>> &getTimingData() const { return timingData; }
+
     void Ingest(const std::string &filePath);
     void MergeComparison();
     void QuickComparison();

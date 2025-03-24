@@ -40,7 +40,7 @@ void VectorSorter::merge(std::vector<int> &vec, int left, int mid, int right)
     // walking through with example vec = {27,38,3,43}
     // left subvector = {27,38}
     // right subvector = {3,43}
-    std::cout << "Merging vec[" << left << ".." << mid << "] and vec[" << mid + 1 << ".." << right << "]" << std::endl;
+    // std::cout << "Merging vec[" << left << ".." << mid << "] and vec[" << mid + 1 << ".." << right << "]" << std::endl;
     // will output: Merging vec[0..1] and vec[2..3]
 
     // first need to create a temp vector to store merged results
@@ -50,22 +50,22 @@ void VectorSorter::merge(std::vector<int> &vec, int left, int mid, int right)
     int i = left, j = mid + 1;
 
     // here for debugging purposes (to ensure elements in left side)
-    std::cout << "Left subarray: ";
-    for (int k = left; k <= mid; ++k)
-    {
-        std::cout << vec[k] << " ";
-    }
-    std::cout << std::endl;
+    // std::cout << "Left subarray: ";
+    // for (int k = left; k <= mid; ++k)
+    // {
+    //     std::cout << vec[k] << " ";
+    // }
+    // std::cout << std::endl;
 
     // will output: Left subarray: 27 38
 
     // here for debugging purposes (to ensure elements in right side)
-    std::cout << "Right subarray: ";
-    for (int k = mid + 1; k <= right; ++k)
-    {
-        std::cout << vec[k] << " ";
-    }
-    std::cout << std::endl;
+    // std::cout << "Right subarray: ";
+    // for (int k = mid + 1; k <= right; ++k)
+    // {
+    //     std::cout << vec[k] << " ";
+    // }
+    // std::cout << std::endl;
 
     // will output: Right subarray: 3 43
 
@@ -73,7 +73,7 @@ void VectorSorter::merge(std::vector<int> &vec, int left, int mid, int right)
     // we merge into the temp vector
     while (i <= mid && j <= right) // loop will continue as long as both i is within the left subsection and j is within the right subsection
     {
-        std::cout << "Comparing " << vec[i] << " and " << vec[j] << std::endl;
+        // std::cout << "Comparing " << vec[i] << " and " << vec[j] << std::endl;
         // iteration 1a: Comparing 27 and 3
         // iteration 2a: Comparing 27 and 43
         // iteration 3a: Comparing 38 and 43
@@ -82,7 +82,7 @@ void VectorSorter::merge(std::vector<int> &vec, int left, int mid, int right)
         {
             // iteration 2b: since 27 <= 43, place 27 into position 1
             // iteration 3b: since 38 <= 43, place 38 into position 2
-            std::cout << "Placing " << vec[i] << " into position " << (left + temp.size()) << std::endl;
+            // std::cout << "Placing " << vec[i] << " into position " << (left + temp.size()) << std::endl;
             temp.push_back(vec[i++]); // increment i to move to next positon in vec
             // iteration2 vector: {3, 27}
             // iteration3 vector: {3,27,38}
@@ -90,7 +90,7 @@ void VectorSorter::merge(std::vector<int> &vec, int left, int mid, int right)
         else
         {
             // iteration 1b: since 27 is NOT <= 3, place 3 into positon 0
-            std::cout << "Placing " << vec[j] << " into position " << (left + temp.size()) << std::endl;
+            // std::cout << "Placing " << vec[j] << " into position " << (left + temp.size()) << std::endl;
             temp.push_back(vec[j++]); // increment j to move to next positon in vec
             // iteration1 vector: {3}
         }
@@ -99,7 +99,7 @@ void VectorSorter::merge(std::vector<int> &vec, int left, int mid, int right)
     // since right subsection is empty -> copy remaining elements from left
     while (i <= mid)
     {
-        std::cout << "Copying remaining " << vec[i] << " from the left subarray into position " << (left + temp.size()) << std::endl;
+        // std::cout << "Copying remaining " << vec[i] << " from the left subarray into position " << (left + temp.size()) << std::endl;
         temp.push_back(vec[i++]);
     }
 
@@ -107,7 +107,7 @@ void VectorSorter::merge(std::vector<int> &vec, int left, int mid, int right)
     // in our example: left is empty (27 38) and right has 43 remaining so..
     while (j <= right)
     {
-        std::cout << "Copying remaining " << vec[j] << " from the right subarray into position " << (left + temp.size()) << std::endl;
+        // std::cout << "Copying remaining " << vec[j] << " from the right subarray into position " << (left + temp.size()) << std::endl;
         // will output: Copying remaining 43 from the right subarray into position 3
         temp.push_back(vec[j++]);
         // final temp vector looks like this: {3, 27, 38, 43}
@@ -116,19 +116,19 @@ void VectorSorter::merge(std::vector<int> &vec, int left, int mid, int right)
     // the merged temp values are written to their correct positions in vec
     for (int k = 0; k < temp.size(); ++k)
     {
-        std::cout << "Writing " << temp[k] << " to vec[" << (left + k) << "]" << std::endl;
+        // std::cout << "Writing " << temp[k] << " to vec[" << (left + k) << "]" << std::endl;
         vec[left + k] = temp[k];
         // will output: Writing 3 to vec[0], Writing 27 to vec[1]...
     }
 
     // just here for debugging purposes to see the final output
-    std::cout << "Merged vec[" << left << ".." << right << "]: ";
-    for (int k = left; k <= right; ++k)
-    {
-        std::cout << vec[k] << " ";
-    }
-    std::cout << std::endl
-              << std::endl;
+    // std::cout << "Merged vec[" << left << ".." << right << "]: ";
+    // for (int k = left; k <= right; ++k)
+    // {
+    //     std::cout << vec[k] << " ";
+    // }
+    // std::cout << std::endl
+    //           << std::endl;
 }
 
 void VectorSorter::quick_sort(std::vector<int> &vec)
@@ -146,12 +146,12 @@ void VectorSorter::quick_sort_helper(std::vector<int> &vec, int left, int right)
         int pivot = vec[left];
 
         // this is just for debugging (showing pivot and current subvector being worked on)
-        std::cout << "Pivot: " << pivot << " | Subvector: ";
-        for (int i = left; i <= right; i++)
-        {
-            std::cout << vec[i] << " ";
-        }
-        std::cout << "\n";
+        // std::cout << "Pivot: " << pivot << " | Subvector: ";
+        // for (int i = left; i <= right; i++)
+        // {
+        //     std::cout << vec[i] << " ";
+        // }
+        // std::cout << "\n";
 
         // once we have pivot, we create two temporary vectors that we will partition elements into
         // left = smaller than pivot and right = bigger than pivot
@@ -186,12 +186,12 @@ void VectorSorter::quick_sort_helper(std::vector<int> &vec, int left, int right)
         }
 
         // here for debugging, showing vector after partitioning
-        std::cout << "After partition: ";
-        for (int i = left; i <= right; i++)
-        {
-            std::cout << vec[i] << " ";
-        }
-        std::cout << " | Pivot index: " << pivotIndex << "\n\n";
+        // std::cout << "After partition: ";
+        // for (int i = left; i <= right; i++)
+        // {
+        //     std::cout << vec[i] << " ";
+        // }
+        // std::cout << " | Pivot index: " << pivotIndex << "\n\n";
 
         // last part is just applying quick sort recurively on these left and right parts
         quick_sort_helper(vec, left, pivotIndex - 1);
