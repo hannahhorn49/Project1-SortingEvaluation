@@ -13,8 +13,8 @@ bool test_vector_merge_sort()
     std::vector<int> singleVec = {42};
 
     // case 3 here (normal unsorted vector)
-    std::vector<int> vec = {5, 3, 8, 1, 2};
-    std::vector<int> expected = {1, 2, 3, 5, 8};
+    std::vector<int> vec = {5, 0, 8, 1, 2};
+    std::vector<int> expected = {0, 1, 2, 5, 8};
 
     // case 4 here (already sorted vector)
     std::vector<int> sortedVec = {1, 2, 3, 4, 5};
