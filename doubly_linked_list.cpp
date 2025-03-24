@@ -1,6 +1,4 @@
 #include "doubly_linked_list.hpp"
-#include <iostream>
-
 
 DLLNode::DLLNode(int val){
     value = val;
@@ -8,7 +6,7 @@ DLLNode::DLLNode(int val){
     next = nullptr;
 }
 
-DLLNode::DLLNode(int val, DLLNode *n, DLLNode *p)
+DLLNode::DLLNode(int val, DLLNode *p, DLLNode *n)
 {
     value = val;
     prev = p;
@@ -28,64 +26,46 @@ void DoublyLinkedList::push_back(int v)
     {
         DLLNode *temp = new DLLNode(v);
         head = temp;
-        //std::cout << head->value << std::endl;
         
     }
-    else if(head->next == nullptr)
+    else if(head->next->next == nullptr)
     {
-        //std::cout << "in statement" << std::endl;
-        DLLNode *temp = new DLLNode(v, nullptr, head);
+        DLLNode *temp = new DLLNode(v, head, nullptr);
         tail = temp;
         head->next = temp;
-        //std::cout << "past else if" << std::endl;
         
     }
     else{
-        //std::cout << "in this else statemnet" << std::endl;
         DLLNode *iter = tail;
-        DLLNode* temp2 = new DLLNode(v, nullptr, iter);
+        DLLNode* temp2 = new DLLNode(v, iter, nullptr);
         iter->next = temp2;
         tail = temp2;
         
     }
 }
 
-DLLNode* DoublyLinkedList::DLL_merge_sort(DLLNode *one_head){
-    if(one_head == nullptr)
+DLLNode* DoublyLinkedList::DLL_merge_sort(DLLNode *head){
+    if(head == nullptr)
     {
         //first case: list is empty
-        return one_head;
+        return head;
     }
-    else if(one_head->next == nullptr)
+    else if(head->next == nullptr)
     {
         //next case: list has one element 
-        return one_head;
+        return head;
     }
     else{
-        //std::cout << "before split:"; 
-        //print_list();
-        DLLNode *second = DLL_merge_sort_helper(one_head);
-        //std::cout << "past helper" << std::endl;
+        DLLNode *second = DLL_merge_sort_helper(head);
 
-        DLLNode *firsthead = DLL_merge_sort(one_head);
+        head = DLL_merge_sort(head);
         second = DLL_merge_sort(second);
-        //print_list();
-        //std::cout << "going into merge" << get_head()->value << std::endl;
 
-        DLLNode *testing = merge(firsthead, second);
-        update_head_tail(testing);
-        //std::cout << get_head()->value << std::endl;
-        return testing;
-    
+        return merge(head, second);
     }
 }
 
 DLLNode* DoublyLinkedList::DLL_merge_sort_helper(DLLNode *dllnode){
-    if(dllnode == nullptr || dllnode->next == nullptr)
-    {
-        return nullptr;
-    }
-    
     DLLNode *two = dllnode;
     DLLNode *one = dllnode;
 
@@ -108,7 +88,6 @@ DLLNode* DoublyLinkedList::DLL_merge_sort_helper(DLLNode *dllnode){
 }
 
 DLLNode* DoublyLinkedList::merge(DLLNode *one_node, DLLNode *two_node){
-    //something wrong with this function - not merging correctly
     if(one_node == nullptr)
     {
         return two_node;
@@ -118,68 +97,24 @@ DLLNode* DoublyLinkedList::merge(DLLNode *one_node, DLLNode *two_node){
         return one_node;
     }
     else{
-        DLLNode *result = nullptr;
-        //std::cout << "else statement" << std::endl;
-        //print_list();
-        //std::cout << "One node value: " << one_node->value << std::endl;
-        //std::cout << "Two node value: " << two_node->value << std::endl;
         if(one_node->value < two_node->value)
         {
-            result = one_node;
-            result->next = merge(one_node->next, two_node);
-            if(result->next != nullptr)
+            one_node->next = merge(one_node->next, two_node);
+            if(one_node->next != nullptr)
             {
-                result->next->prev = result;
+                one_node->next->prev = one_node;
             }
-            result->prev = nullptr;
-            //return one_node;
+            one_node->prev = nullptr;
+            return one_node;
         }
         else{
-            result = two_node;
-            result->next = merge(one_node, two_node->next);
-            if(result->next != nullptr)
+            two_node->next = merge(one_node, two_node->next);
+            if(two_node->next != nullptr)
             {
-                result->next->prev = result;
+                two_node->prev->next = two_node;
             }
-            result->prev = nullptr;
-            //return two_node;
+            two_node->prev = nullptr;
+            return two_node;
         }
-        /*std::cout << "result value: " << result->value << std::endl;
-        if (result->prev != nullptr){
-            std::cout << "result's prev: " << result->prev->value << std::endl;
-        }
-        if(result->next != nullptr)
-        {
-            std::cout << "result's next: " << result->next->value << std::endl;
-        }*/
-        return result;
-
-    }
-}
-
-//debugging!! 
-void DoublyLinkedList::print_list() {
-    DLLNode* current = head;
-    while (current != nullptr) {
-        std::cout << current->value << " ";
-        current = current->next;
-    }
-    std::cout << std::endl;
-}
-
-void DoublyLinkedList::update_head_tail(DLLNode *new_head){
-    head = new_head;
-    if(head == nullptr)
-    {
-        tail = nullptr;
-        return;
-    }
-    else{
-        DLLNode *current = head;
-        while(current->next != nullptr)
-        {
-            current = current->next;
-        }
-        tail = current;
     }
 }

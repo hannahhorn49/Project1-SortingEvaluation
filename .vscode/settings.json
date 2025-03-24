@@ -51,8 +51,8 @@
         "variant": "cpp",
         "algorithm": "cpp",
         "iostream": "cpp",
-        "cassert": "cpp",
-        "atomic": "cpp",
+        "cassert": "cpp",     // From evaluator_work
+        "atomic": "cpp",      // From main
         "bit": "cpp",
         "*.tcc": "cpp",
         "charconv": "cpp",
@@ -70,10 +70,7 @@
         "format": "cpp",
         "numbers": "cpp",
         "span": "cpp",
-        "text_encoding": "cpp",
-        "chrono": "cpp",
-        "fstream": "cpp",
-        "iomanip": "cpp"
+        "text_encoding": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
