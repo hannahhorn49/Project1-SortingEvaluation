@@ -127,6 +127,12 @@ bool test_list_merge_sort()
     l.push_back(2);
     l.push_back(10);
     l.push_back(8);
+    l.push_back(7);
+    l.push_back(9);
+    l.push_back(3);
+    //l.print_list();
+    //testing testing
+
 
     oneItem.push_back(64);
 
