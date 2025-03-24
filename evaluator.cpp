@@ -91,3 +91,46 @@ void Evaluator::MergeComparison()
 
     std::cout << "--- MergeComparison Completed ---\n\n";
 }
+
+void Evaluator::QuickComparison()
+{
+    std::cout << "\n--- Starting QuickComparison ---\n";
+
+    for (size_t i = 0; i < testVectors.size(); ++i)
+    {
+        auto &vec = testVectors[i]; // get a reference to the vector in testVectors
+
+        std::vector<int> vecCopy = vec; // copy the vector to preserve original data
+
+        std::cout << "Original vector " << i << ": { ";
+        for (int num : vec)
+            std::cout << num << " ";
+        std::cout << "}\n";
+
+        // timer start
+        auto start = std::chrono::high_resolution_clock::now();
+
+        VectorSorter::quick_sort(vecCopy); // sort the copy by calling function
+
+        // timer end
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> duration = end - start;
+        double timeTaken = duration.count();
+
+        timingData.push_back({timeTaken}); // we store the time taken for this sort
+
+        std::cout << "Sorted vector " << i << ": { ";
+        for (int num : vecCopy)
+            std::cout << num << " ";
+        std::cout << "} Time: " << timeTaken << " ms\n";
+
+        testVectors[i] = vecCopy; // this updates the original vector in testVectors with the sorted one
+    }
+
+    std::cout << "--- QuickComparison Completed ---\n\n";
+}
+
+void ::Evaluator::InsertionComparison()
+{
+    // need to implement
+}
