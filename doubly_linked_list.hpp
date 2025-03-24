@@ -39,6 +39,7 @@ class DoublyLinkedList{
         DLLNode *get_head(){ return head;}
         DLLNode *get_tail(){ return tail;}
 
+        //for testing!!
         void update_head_tail(DLLNode *new_head);
         void push_back(int v);
         void print_list();
