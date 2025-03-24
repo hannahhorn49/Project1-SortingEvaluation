@@ -82,42 +82,43 @@ bool test_vector_quick_sort()
 
 bool test_vector_insertion_sort()
 {
-    //set up: 
-    //case 1 (empty vector):
+    // set up:
+    // case 1 (empty vector):
     std::vector<int> emptyVec;
 
-    //case 2 (vector with one element)
+    // case 2 (vector with one element)
     std::vector<int> one_element_vec{3};
     std::vector<int> expected_one{3};
 
-    //rest of cases 
-    std::vector<int> my_vec1{3,4,5,6};
-    std::vector<int> exp_vec1{3,4,5,6};
+    // rest of cases
+    std::vector<int> my_vec1{3, 4, 5, 6};
+    std::vector<int> exp_vec1{3, 4, 5, 6};
 
-    std::vector<int> my_vec2{8,5,6,8,8};
-    std::vector<int> exp_vec2{5,6,8,8,8}; //to test same values!
-    
-    std::vector<int> my_vec3{3,4,2,1};
-    std::vector<int> exp_vec3{1,2,3,4};
+    std::vector<int> my_vec2{8, 5, 6, 8, 8};
+    std::vector<int> exp_vec2{5, 6, 8, 8, 8}; // to test same values!
 
-    //EXECUTION 
+    std::vector<int> my_vec3{3, 4, 2, 1};
+    std::vector<int> exp_vec3{1, 2, 3, 4};
+
+    // EXECUTION
     VectorSorter::insertion_sort(my_vec1);
     VectorSorter::insertion_sort(my_vec2);
     VectorSorter::insertion_sort(my_vec3);
 
-    //VALIDATION 
+    // VALIDATION
     assert(emptyVec.size() == 0);
     assert(one_element_vec == expected_one);
     assert(my_vec1 == exp_vec1);
     assert(my_vec2 == exp_vec2);
     assert(my_vec3 == exp_vec3);
-    
-    //clean up
+
+    // clean up
     return true;
 }
 
-bool test_list_merge_sort(){
-    //1. set up 
+bool test_list_merge_sort()
+{
+    // 1. set up
     DoublyLinkedList l;
     DoublyLinkedList empty;
     DoublyLinkedList oneItem;
@@ -134,6 +135,7 @@ bool test_list_merge_sort(){
 
     oneItem.push_back(64);
     //std::cout << "past first part set up" << std::endl;
+
 
 
     DLLNode* l_head = l.get_head();
@@ -167,6 +169,7 @@ bool test_list_merge_sort(){
     //std::cout << new_l_tail->value << std::endl;
     assert(new_l_tail->value == 10);
 
+
     assert(empty.get_head() == nullptr);
     assert(empty.get_tail() == nullptr);
 
@@ -175,6 +178,6 @@ bool test_list_merge_sort(){
     assert(oneItem.get_head()->next == nullptr);
     //std::cout << "past validation" << std::endl;
 
-    //4. clean up
+    // 4. clean up
     return true;
 }
