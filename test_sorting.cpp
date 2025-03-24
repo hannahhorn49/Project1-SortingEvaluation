@@ -122,31 +122,50 @@ bool test_list_merge_sort(){
     DoublyLinkedList empty;
     DoublyLinkedList oneItem;
 
-    l.push_back(5);
-    l.push_back(2);
+
+    //std::cout << "made it back first pushback" << std::endl;
+    //std::cout << "past second" << std::endl;
     l.push_back(10);
     l.push_back(8);
+    l.push_back(7);
+    l.push_back(9);
+    l.push_back(3);
+    //l.print_list();
 
     oneItem.push_back(64);
+    //std::cout << "past first part set up" << std::endl;
+
 
     DLLNode* l_head = l.get_head();
+    //std::cout << "past first get head" << std::endl;
     DLLNode* empty_head = empty.get_head();
     DLLNode* oneItem_head = oneItem.get_head();
 
+    //std::cout << "Made it past set up" << std::endl;
+
     //2. execution 
-    DoublyLinkedList::DLL_merge_sort(l_head);
-    DoublyLinkedList::DLL_merge_sort(empty_head);
-    DoublyLinkedList::DLL_merge_sort(oneItem_head);
+    DLLNode *test2 = empty.DoublyLinkedList::DLL_merge_sort(empty_head);
+    DLLNode *test3 = oneItem.DoublyLinkedList::DLL_merge_sort(oneItem_head);
+    //std::cout << "past first two" << std::endl;
+    DLLNode *test1 = l.DoublyLinkedList::DLL_merge_sort(l_head);
+    //std::cout << "past execution" << std::endl;
+    
+    l.print_list();
     
     
-    //3. validation 
-    assert(l_head->value == 2);
-    assert(l_head->next->value == 5);
-    assert(l_head->next->next->value == 8);
-    assert(l_head->next->next->next->value == 10);
-    assert(l_head->next->next->next->next == nullptr);
-    DLLNode* l_tail = l.get_tail();
-    assert(l_tail->value == 10);
+    //3. validation
+    DLLNode *new_l_head = l.get_head();
+    //std::cout << new_l_head->value << std::endl;
+    assert(new_l_head->value == 3);
+    assert(new_l_head->next->value == 7);
+    assert(new_l_head->next->next->value == 8);
+    assert(new_l_head->next->next->next->value == 9);
+    //std::cout << new_l_head->next->next->next->next->value << std::endl;
+    assert(new_l_head->next->next->next->next->value == 10);
+    assert(new_l_head->next->next->next->next->next == nullptr);
+    DLLNode* new_l_tail = l.get_tail();
+    //std::cout << new_l_tail->value << std::endl;
+    assert(new_l_tail->value == 10);
 
     assert(empty.get_head() == nullptr);
     assert(empty.get_tail() == nullptr);
@@ -154,6 +173,7 @@ bool test_list_merge_sort(){
     assert(oneItem.get_head()->value == 64);
     assert(oneItem.get_head()->prev == nullptr);
     assert(oneItem.get_head()->next == nullptr);
+    //std::cout << "past validation" << std::endl;
 
     //4. clean up
     return true;
