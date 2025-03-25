@@ -17,6 +17,7 @@ bool testIngest()
         {1, 2, 7, 3}, {4, 5, 7, 7}, {1, 5, 8, 6}, {6, 1, 4, 0, 7}, {5, 3, 2, 4, 9}, {4, 1, 3, 0, 9}, {7, 3, 6, 5, 2, 5}, {8, 3, 5, 4, 8, 3}, {3, 0, 6, 4, 4, 9}};
 
     const std::vector<std::vector<int>> &actualVectors = evaluator.getTestVectors();
+
     assert(actualVectors.size() == expectedVectors.size());
 
     for (int i = 0; i < expectedVectors.size(); ++i)
@@ -25,6 +26,46 @@ bool testIngest()
     }
 
     std::cout << "Vector ingest test passed!\n";
+
+
+    //for doublylinked list!!!!: 
+    Evaluator evaluatorDLL;
+
+    //same data
+    std::vector<std::vector<int>> expectedData = {
+        {1, 2, 7, 3}, {4, 5, 7, 7}, {1, 5, 8, 6}, {6, 1, 4, 0, 7}, {5, 3, 2, 4, 9}, {4, 1, 3, 0, 9}, {7, 3, 6, 5, 2, 5}, {8, 3, 5, 4, 8, 3}, {3, 0, 6, 4, 4, 9}};
+
+    DoublyLinkedList &actuallistDLL = evaluatorDLL.getTestList();
+    //std::cout << "past first" << std::endl;
+    //std::cout << actuallistDLL.get_head() << std::endl;
+    //std::cout << "past second" << std::endl;
+    DLLNode *currentNode = actuallistDLL.get_head();
+    int counter = 0;
+
+    //std::cout << expectedData.size() << std::endl;
+    
+    //currentNode is currently being seen as nullptr!! That is an issue I am dealing with
+    //not entering the while statement
+    while(currentNode && counter < expectedData.size())
+    {
+        std::vector<int> actualDigits;
+        DLLNode *digitNode = currentNode->next;
+
+        while(digitNode != nullptr)
+        {
+            actualDigits.push_back(digitNode->value);
+            digitNode = digitNode->next;
+        }
+
+        assert(actualDigits == expectedData[counter]);
+        std::cout << "past this assertion statement" << std::endl;
+        currentNode = currentNode->next;
+        counter ++;
+        //std::cout << counter << std::endl;
+    }
+    //std:: cout << counter<< std::endl;
+    assert(counter == expectedData.size());
+    std::cout << "Doubly linked list ingest test passed!\n";
 
     // clean up
     return true;
