@@ -162,6 +162,92 @@ bool test_list_merge_sort()
     return true;
 }
 
+bool test_list_insertion_sort()
+{
+    // 1. set up
+    DoublyLinkedList no_nodes;
+    DoublyLinkedList one_node;
+    DoublyLinkedList multiple_nodes;
+
+    one_node.push_back(18);
+
+    multiple_nodes.push_back(27);
+    multiple_nodes.push_back(38);
+    multiple_nodes.push_back(34);
+    multiple_nodes.push_back(15);
+
+    DLLNode *no_nodes_head = no_nodes.get_head();
+    DLLNode *one_node_head = one_node.get_head();
+    DLLNode *multiple_nodes_head = multiple_nodes.get_head();
+
+    // 2. execution
+    no_nodes.DLL_insertion_sort(no_nodes_head);
+    one_node.DLL_insertion_sort(one_node_head);
+    multiple_nodes.DLL_insertion_sort(multiple_nodes_head);
+
+    // 3. validation
+    assert(no_nodes.get_head() == nullptr);
+    assert(no_nodes.get_tail() == nullptr);
+
+    assert(one_node.get_head()->value == 18);
+    assert(one_node.get_head()->prev == nullptr);
+    assert(one_node.get_head()->next == nullptr);
+
+    assert(multiple_nodes_head->value == 15);
+    assert(multiple_nodes_head->next->value == 27);
+    assert(multiple_nodes_head->next->next->value == 34);
+    assert(multiple_nodes_head->next->next->next->value == 38);
+    assert(multiple_nodes_head->next->next->next->next == nullptr);
+    DLLNode *multiple_nodes_tail = multiple_nodes.get_tail();
+    assert(multiple_nodes_tail->value == 38);
+
+    // 4. clean up
+    return true;
+}
+
+bool test_list_quick_sort()
+{
+    // 1. set up
+    DoublyLinkedList no_nodes;
+    DoublyLinkedList one_node;
+    DoublyLinkedList multiple_nodes;
+
+    one_node.push_back(18);
+
+    multiple_nodes.push_back(27);
+    multiple_nodes.push_back(38);
+    multiple_nodes.push_back(34);
+    multiple_nodes.push_back(15);
+
+    DLLNode *no_nodes_head = no_nodes.get_head();
+    DLLNode *one_node_head = one_node.get_head();
+    DLLNode *multiple_nodes_head = multiple_nodes.get_head();
+
+    // 2. execution
+    no_nodes.DLL_quick_sort(no_nodes_head);
+    one_node.DLL_quick_sort(one_node_head);
+    multiple_nodes.DLL_quick_sort(multiple_nodes_head);
+
+    // 3. validation
+    assert(no_nodes.get_head() == nullptr);
+    assert(no_nodes.get_tail() == nullptr);
+
+    assert(one_node.get_head()->value == 18);
+    assert(one_node.get_head()->prev == nullptr);
+    assert(one_node.get_head()->next == nullptr);
+
+    assert(multiple_nodes_head->value == 15);
+    assert(multiple_nodes_head->next->value == 27);
+    assert(multiple_nodes_head->next->next->value == 34);
+    assert(multiple_nodes_head->next->next->next->value == 38);
+    assert(multiple_nodes_head->next->next->next->next == nullptr);
+    DLLNode *multiple_nodes_tail = multiple_nodes.get_tail();
+    assert(multiple_nodes_tail->value == 38);
+
+    // 4. clean up
+    return true;
+}
+
 int main()
 {
     // call each test function
@@ -169,6 +255,7 @@ int main()
     bool vectorQuickSortTestPassed = test_vector_quick_sort();
     bool vectorInsertionSortTestPassed = test_vector_insertion_sort();
     bool listMergeSortTestPassed = test_list_merge_sort();
+  
 
     // output results of test
     std::cout << "Running Sorting Tests...\n";

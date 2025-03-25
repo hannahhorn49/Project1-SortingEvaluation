@@ -24,7 +24,8 @@ private:
     DLLNode *tail;
     // basic outline: will change parameters/names and such
     DLLNode *DLL_merge_sort_helper(DLLNode *dllnode);
-    void quick_sort(DLLNode *head);
+    void DLL_quick_sort_helper(DLLNode *low, DLLNode *high);
+    DLLNode* DLL_quick_sort_partitioner(DLLNode *low, DLLNode *high);
     DLLNode *merge(DLLNode *one_node, DLLNode *two_node);
 
 public:
