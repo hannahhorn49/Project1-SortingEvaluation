@@ -1,5 +1,3 @@
-// #ifndef DLL_SORTER_HPP
-// #define DLL_SORTER_HPP
 #ifndef DOUBLY_LINKED_LIST_HPP
 #define DOUBLY_LINKED_LIST_HPP
 
@@ -12,7 +10,6 @@ public:
 
     DLLNode(int val);
     DLLNode(int v, DLLNode *n, DLLNode *p);
-    // do not think we will need a constructor
 
 private:
 };
@@ -25,15 +22,16 @@ private:
     // basic outline: will change parameters/names and such
     DLLNode *DLL_merge_sort_helper(DLLNode *dllnode);
     void DLL_quick_sort_helper(DLLNode *low, DLLNode *high);
-    DLLNode* DLL_quick_sort_partitioner(DLLNode *low, DLLNode *high);
+    DLLNode *DLL_quick_sort_partitioner(DLLNode *low, DLLNode *high);
     DLLNode *merge(DLLNode *one_node, DLLNode *two_node);
 
 public:
     // basic outline: will fix them further down the road
     DoublyLinkedList();
+    DoublyLinkedList(const DoublyLinkedList &other); // for evalutor class
     DLLNode *DLL_merge_sort(DLLNode *one_head);
-    void quick_sort();
-    void insertion_sort(DLLNode *head);
+    void DLL_insertion_sort(DLLNode *head);
+    void DLL_quick_sort(DLLNode *head);
 
     // to help with testing:
     DLLNode *get_head() const { return head; }

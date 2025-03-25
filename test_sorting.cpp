@@ -250,50 +250,45 @@ bool test_list_quick_sort()
 
 int main()
 {
-    // call each test function
+    // Individual sorting function tests
     bool vectorMergeSortTestPassed = test_vector_merge_sort();
     bool vectorQuickSortTestPassed = test_vector_quick_sort();
     bool vectorInsertionSortTestPassed = test_vector_insertion_sort();
     bool listMergeSortTestPassed = test_list_merge_sort();
-  
+    bool listInsertionSortTestPassed = test_list_insertion_sort();
+    bool listQuickSortTestPassed = test_list_quick_sort();
 
-    // output results of test
-    std::cout << "Running Sorting Tests...\n";
+    // Output results of individual sorting tests
+    std::cout << "\nRunning Sorting Tests...\n";
     if (vectorMergeSortTestPassed)
-    {
         std::cout << "Vector Merge Sort Test Passed!\n";
-    }
     else
-    {
         std::cout << "Vector Merge Sort Test Failed.\n";
-    }
 
     if (vectorQuickSortTestPassed)
-    {
         std::cout << "Vector Quick Sort Test Passed!\n";
-    }
     else
-    {
         std::cout << "Vector Quick Sort Test Failed.\n";
-    }
 
     if (vectorInsertionSortTestPassed)
-    {
         std::cout << "Vector Insertion Sort Test Passed!\n";
-    }
     else
-    {
         std::cout << "Vector Insertion Sort Test Failed.\n";
-    }
 
     if (listMergeSortTestPassed)
-    {
         std::cout << "Doubly Linked List Merge Sort Test Passed!\n";
-    }
     else
-    {
         std::cout << "Doubly Linked List Merge Sort Test Failed.\n";
-    }
+
+    if (listInsertionSortTestPassed)
+        std::cout << "Doubly Linked List Insertion Sort Test Passed!\n";
+    else
+        std::cout << "Doubly Linked List Insertion Sort Test Failed.\n";
+
+    if (listQuickSortTestPassed)
+        std::cout << "Doubly Linked List Quick Sort Test Passed!\n";
+    else
+        std::cout << "Doubly Linked List Quick Sort Test Failed.\n";
 
     return 0;
 }
