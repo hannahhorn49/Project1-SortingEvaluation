@@ -191,6 +191,20 @@ bool DoublyLinkedList::is_empty() const
     return head == nullptr; // if head doesn't point to anything -> empty
 }
 
+// this helps in the evaluator class
+// Copy constructor in DoublyLinkedList class
+DoublyLinkedList::DoublyLinkedList(const DoublyLinkedList &other)
+{
+    head = nullptr;
+    tail = nullptr;
+    DLLNode *current = other.head;
+    while (current)
+    {
+        push_back(current->value);
+        current = current->next;
+    }
+}
+
 void DoublyLinkedList::update_head_tail(DLLNode *new_head)
 {
     head = new_head;
@@ -210,66 +224,76 @@ void DoublyLinkedList::update_head_tail(DLLNode *new_head)
     }
 }
 
-void DoublyLinkedList::DLL_insertion_sort(DLLNode *head){
-    if (head == nullptr || head -> next == nullptr){
+void DoublyLinkedList::DLL_insertion_sort(DLLNode *head)
+{
+    if (head == nullptr || head->next == nullptr)
+    {
         return;
     }
 
-    DLLNode* sorted = head;
-    DLLNode* unsorted = head->next;
+    DLLNode *sorted = head;
+    DLLNode *unsorted = head->next;
 
-    while (unsorted != nullptr){
-        DLLNode* curr = unsorted;
-        DLLNode* next = unsorted->next;
-        while(curr != nullptr && curr->prev->value > curr->value){
+    while (unsorted != nullptr)
+    {
+        DLLNode *curr = unsorted;
+        DLLNode *next = unsorted->next;
+        while (curr != nullptr && curr->prev->value > curr->value)
+        {
             int temp = curr->value;
             curr->value = curr->prev->value;
             curr->prev->value = temp;
         }
         unsorted = next;
     }
-
 }
 
-void DoublyLinkedList::DLL_quick_sort(DLLNode *head){
+void DoublyLinkedList::DLL_quick_sort(DLLNode *head)
+{
     // checks for dll with 0 or 1 elements
-    if (head == nullptr || head -> next == nullptr){
+    if (head == nullptr || head->next == nullptr)
+    {
         return;
     }
     DLLNode *tail = head;
-    while(tail->next!=nullptr){
+    while (tail->next != nullptr)
+    {
         tail = tail->next;
     }
-    DLL_quick_sort_helper(head,tail);
+    DLL_quick_sort_helper(head, tail);
 }
 
-//Sorts the given section of the dll around the pivot
-DLLNode* DoublyLinkedList::DLL_quick_sort_partitioner(DLLNode *low, DLLNode *high){
+// Sorts the given section of the dll around the pivot
+DLLNode *DoublyLinkedList::DLL_quick_sort_partitioner(DLLNode *low, DLLNode *high)
+{
     int pivot_value = low->value;
-    DLLNode* i = low;
-    DLLNode* j = low->next;
-        
-        while (j != high->next) {
-            if (j->value < pivot_value) {
-                i = i->next;
-                int temp = i->value;
-                i->value = j->value;
-                j->value = temp;
-            }
-            j = j->next;
+    DLLNode *i = low;
+    DLLNode *j = low->next;
+
+    while (j != high->next)
+    {
+        if (j->value < pivot_value)
+        {
+            i = i->next;
+            int temp = i->value;
+            i->value = j->value;
+            j->value = temp;
         }
-        int temp = i->value;
-        i->value = low->value;
-        low->value = temp;
-        return i;
+        j = j->next;
+    }
+    int temp = i->value;
+    i->value = low->value;
+    low->value = temp;
+    return i;
 }
 
 // recursive calls to sort it
-void DoublyLinkedList::DLL_quick_sort_helper(DLLNode* low, DLLNode* high){
-    if (low && high && low != high && low != high->next){
-        DLLNode* pivot = DLL_quick_sort_partitioner(low, high);
-        DLL_quick_sort_helper(low,pivot->prev);
-        DLL_quick_sort_helper(pivot->next,high);
+void DoublyLinkedList::DLL_quick_sort_helper(DLLNode *low, DLLNode *high)
+{
+    if (low && high && low != high && low != high->next)
+    {
+        DLLNode *pivot = DLL_quick_sort_partitioner(low, high);
+        DLL_quick_sort_helper(low, pivot->prev);
+        DLL_quick_sort_helper(pivot->next, high);
     }
-    
 }

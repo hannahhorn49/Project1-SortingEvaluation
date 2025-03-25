@@ -7,7 +7,7 @@
 
 
 **TO RUN: testing sorting**
-g++ -std=c++11 -o test_sorting.cpp vector_sorter.cpp doubly_linked_list.cpp
+g++ -std=c++11 test_sorting.cpp vector_sorter.cpp doubly_linked_list.cpp
 
 ./a.out
 
