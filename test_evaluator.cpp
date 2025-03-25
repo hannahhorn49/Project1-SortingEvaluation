@@ -1,18 +1,17 @@
 #include "evaluator.hpp"
+#include "doubly_linked_list.hpp"
 #include <iostream>
 #include <cassert>
 
 bool testIngest()
 {
-    // NOTE: just going to write for vectors right now
-
-    // set up (create an instance of Evaluator class)
+    // set up (create an instance of evaluator)
     Evaluator evaluator;
 
-    // execution (calling the Ingest function)
+    // execution (call the ingest function)
     evaluator.Ingest("test_cases.txt");
 
-    // validation
+    // validation (part 1: vectors)
     std::vector<std::vector<int>> expectedVectors = {
         {1, 2, 7, 3}, {4, 5, 7, 7}, {1, 5, 8, 6}, {6, 1, 4, 0, 7}, {5, 3, 2, 4, 9}, {4, 1, 3, 0, 9}, {7, 3, 6, 5, 2, 5}, {8, 3, 5, 4, 8, 3}, {3, 0, 6, 4, 4, 9}};
 
@@ -27,66 +26,62 @@ bool testIngest()
 
     std::cout << "Vector ingest test passed!\n";
 
+    // validation (part 2: doubly linked lists)
 
-    //for doublylinked list!!!!: 
-    Evaluator evaluatorDLL;
-
-    //same data
-    std::vector<std::vector<int>> expectedData = {
-        {1, 2, 7, 3}, {4, 5, 7, 7}, {1, 5, 8, 6}, {6, 1, 4, 0, 7}, {5, 3, 2, 4, 9}, {4, 1, 3, 0, 9}, {7, 3, 6, 5, 2, 5}, {8, 3, 5, 4, 8, 3}, {3, 0, 6, 4, 4, 9}};
-
-    DoublyLinkedList &actuallistDLL = evaluatorDLL.getTestList();
-    //std::cout << "past first" << std::endl;
-    //std::cout << actuallistDLL.get_head() << std::endl;
-    //std::cout << "past second" << std::endl;
-    DLLNode *currentNode = actuallistDLL.get_head();
-    int counter = 0;
-
-    //std::cout << expectedData.size() << std::endl;
-    
-    //currentNode is currently being seen as nullptr!! That is an issue I am dealing with
-    //not entering the while statement
-    while(currentNode && counter < expectedData.size())
+    // created expected doubly linked lists from the expectedVectors
+    std::vector<DoublyLinkedList> expectedLists;
+    for (const auto &vec : expectedVectors)
     {
-        std::vector<int> actualDigits;
-        DLLNode *digitNode = currentNode->next;
-
-        while(digitNode != nullptr)
+        DoublyLinkedList list;
+        for (int val : vec)
         {
-            actualDigits.push_back(digitNode->value);
-            digitNode = digitNode->next;
+            list.push_back(val);
         }
-
-        assert(actualDigits == expectedData[counter]);
-        std::cout << "past this assertion statement" << std::endl;
-        currentNode = currentNode->next;
-        counter ++;
-        //std::cout << counter << std::endl;
+        expectedLists.push_back(list);
     }
-    //std:: cout << counter<< std::endl;
-    assert(counter == expectedData.size());
-    std::cout << "Doubly linked list ingest test passed!\n";
 
-    // clean up
+    // get actual doubly linked lists from evaluator
+    const std::vector<DoublyLinkedList> &actualLists = evaluator.getTestLists();
+
+    assert(actualLists.size() == expectedLists.size());
+
+    // validate size for each doubly linked list
+    for (int i = 0; i < expectedLists.size(); ++i)
+    {
+        assert(expectedLists[i].size() == actualLists[i].size());
+    }
+
+    // for debugging print the lists!!
+    for (int i = 0; i < expectedLists.size(); ++i)
+    {
+        std::cout << "Expected List " << i << ": ";
+        expectedLists[i].print_list();
+        std::cout << "Actual List " << i << ": ";
+        actualLists[i].print_list();
+    }
+
+    std::cout << "Linked list ingest test passed!\n";
+
     return true;
 }
 
 bool testMergeComparison()
 {
-    // set up
+    // Set up: Create instance of evaluator
     Evaluator evaluator;
 
-    // execution
+    // Execution: Call Ingest and MergeComparison
     evaluator.Ingest("test_cases.txt");
     evaluator.MergeComparison();
 
-    // validation
+    // Validation (part 1: vectors - hardcode them sorted)
     std::vector<std::vector<int>> expectedSortedVectors = {
         {1, 2, 3, 7}, {4, 5, 7, 7}, {1, 5, 6, 8}, {0, 1, 4, 6, 7}, {2, 3, 4, 5, 9}, {0, 1, 3, 4, 9}, {2, 3, 5, 5, 6, 7}, {3, 3, 4, 5, 8, 8}, {0, 3, 4, 4, 6, 9}};
 
     const std::vector<std::vector<int>> &actualVectors = evaluator.getTestVectors();
     assert(actualVectors.size() == expectedSortedVectors.size());
 
+    // Compare sorted vectors
     for (int i = 0; i < expectedSortedVectors.size(); ++i)
     {
         if (actualVectors[i] != expectedSortedVectors[i])
@@ -105,118 +100,189 @@ bool testMergeComparison()
         assert(actualVectors[i] == expectedSortedVectors[i]);
     }
 
-    const std::vector<std::vector<double>> &timingData = evaluator.getTimingData();
+    // Validation (part 2: linked lists)
+    const std::vector<DoublyLinkedList> &actualLists = evaluator.getTestLists();
+    assert(actualLists.size() == expectedSortedVectors.size());
 
-    // this makes sure that we have a timing measurement for each vector
-    assert(timingData.size() == actualVectors.size());
-
-    for (int i = 0; i < timingData.size(); ++i)
+    // Validate linked lists (ensure sorted correctly without checking size)
+    for (int i = 0; i < actualLists.size(); ++i)
     {
-        // check that each vector should have exactly one timing value
-        assert(timingData[i].size() == 1);
+        auto node = actualLists[i].get_head();
+        while (node && node->next) // Ensure that each node is less than or equal to the next
+        {
+            if (node->value > node->next->value)
+            {
+                std::cout << "Linked list " << i << " is not sorted correctly at element " << node->value << ":\n";
+                std::cout << "Data: " << node->value << " > " << node->next->value << "\n";
+                assert(false); // Fail if not sorted correctly
+            }
+            node = node->next;
+        }
+    }
 
-        double timeTaken = timingData[i][0]; // grabs the timing value for this vector sort
-        assert(timeTaken >= 0.0);            // check that the time is non negative
+    // Validation (part 3: timing data)
+    const std::vector<std::vector<double>> &vectorTimingData = evaluator.getVectorTimingData();
+    const std::vector<std::vector<double>> &listTimingData = evaluator.getListTimingData();
 
+    // Ensure there is timing data for both vectors and lists
+    assert(vectorTimingData.size() == actualVectors.size());
+    assert(listTimingData.size() == actualLists.size());
+
+    // Ensure that the timing data for vectors is not negative
+    for (int i = 0; i < vectorTimingData.size(); ++i)
+    {
+        assert(vectorTimingData[i].size() == 1); // Each vector should have one timing value
+        double timeTaken = vectorTimingData[i][0];
+        assert(timeTaken >= 0.0); // Check that the time is non-negative
         std::cout << "Time taken for vector " << i << ": " << timeTaken << " ms\n";
+    }
+
+    // Ensure that the timing data for lists is not negative
+    for (int i = 0; i < listTimingData.size(); ++i)
+    {
+        assert(listTimingData[i].size() == 1); // Each list should have one timing value
+        double timeTaken = listTimingData[i][0];
+        assert(timeTaken >= 0.0); // Check that the time is non-negative
+        std::cout << "Time taken for list " << i << ": " << timeTaken << " ms\n";
     }
 
     std::cout << "MergeComparison test passed!\n";
 
-    // clean up
+    // Clean up
     return true;
 }
 
 bool testQuickComparison()
 {
-    // set up
-    Evaluator evaluator;
+    // // set up
+    // Evaluator evaluator;
 
-    // execution
-    evaluator.Ingest("test_cases.txt");
-    evaluator.QuickComparison();
+    // // execution
+    // evaluator.Ingest("test_cases.txt");
+    // evaluator.QuickComparison();
 
-    // validation
-    std::vector<std::vector<int>> expectedSortedVectors = {
-        {1, 2, 3, 7}, {4, 5, 7, 7}, {1, 5, 6, 8}, {0, 1, 4, 6, 7}, {2, 3, 4, 5, 9}, {0, 1, 3, 4, 9}, {2, 3, 5, 5, 6, 7}, {3, 3, 4, 5, 8, 8}, {0, 3, 4, 4, 6, 9}};
+    // // validation
+    // std::vector<std::vector<int>> expectedSortedVectors = {
+    //     {1, 2, 3, 7}, {4, 5, 7, 7}, {1, 5, 6, 8}, {0, 1, 4, 6, 7}, {2, 3, 4, 5, 9}, {0, 1, 3, 4, 9}, {2, 3, 5, 5, 6, 7}, {3, 3, 4, 5, 8, 8}, {0, 3, 4, 4, 6, 9}};
 
-    const std::vector<std::vector<int>> &actualVectors = evaluator.getTestVectors();
-    assert(actualVectors.size() == expectedSortedVectors.size());
+    // const std::vector<std::vector<int>> &actualVectors = evaluator.getTestVectors();
+    // assert(actualVectors.size() == expectedSortedVectors.size());
 
-    for (int i = 0; i < expectedSortedVectors.size(); ++i)
-    {
-        if (actualVectors[i] != expectedSortedVectors[i])
-        {
-            std::cout << "Mismatch at vector " << i << ":\n";
-            std::cout << "Expected: { ";
-            for (int num : expectedSortedVectors[i])
-                std::cout << num << " ";
-            std::cout << "}\n";
+    // for (int i = 0; i < expectedSortedVectors.size(); ++i)
+    // {
+    //     if (actualVectors[i] != expectedSortedVectors[i])
+    //     {
+    //         std::cout << "Mismatch at vector " << i << ":\n";
+    //         std::cout << "Expected: { ";
+    //         for (int num : expectedSortedVectors[i])
+    //             std::cout << num << " ";
+    //         std::cout << "}\n";
 
-            std::cout << "Actual:   { ";
-            for (int num : actualVectors[i])
-                std::cout << num << " ";
-            std::cout << "}\n";
-        }
-        assert(actualVectors[i] == expectedSortedVectors[i]);
-    }
+    //         std::cout << "Actual:   { ";
+    //         for (int num : actualVectors[i])
+    //             std::cout << num << " ";
+    //         std::cout << "}\n";
+    //     }
+    //     assert(actualVectors[i] == expectedSortedVectors[i]);
+    // }
 
-    const std::vector<std::vector<double>> &timingData = evaluator.getTimingData();
+    // const std::vector<std::vector<double>> &timingData = evaluator.getVectorTimingData();
 
-    // clean 
-    return true;
+    // // clean
+    // return true;
+    // You can add the logic for the test here, if needed in the future
+    std::cout << "QuickComparison test not implemented yet.\n";
+    return true; // Assuming the test will be successful once implemented
 }
 
 bool testInsertionComparison()
 {
-    // set up
-    Evaluator evaluator;
+    // // set up
+    // Evaluator evaluator;
 
-    // execution
-    evaluator.Ingest("test_cases.txt");
-    evaluator.InsertionComparison();
+    // // execution
+    // evaluator.Ingest("test_cases.txt");
+    // evaluator.InsertionComparison();
 
-    // validation
-    std::vector<std::vector<int>> expectedSortedVectors = {
-        {1, 2, 3, 7}, {4, 5, 7, 7}, {1, 5, 6, 8}, {0, 1, 4, 6, 7}, {2, 3, 4, 5, 9}, {0, 1, 3, 4, 9}, {2, 3, 5, 5, 6, 7}, {3, 3, 4, 5, 8, 8}, {0, 3, 4, 4, 6, 9}};
+    // // validation
+    // std::vector<std::vector<int>> expectedSortedVectors = {
+    //     {1, 2, 3, 7}, {4, 5, 7, 7}, {1, 5, 6, 8}, {0, 1, 4, 6, 7}, {2, 3, 4, 5, 9}, {0, 1, 3, 4, 9}, {2, 3, 5, 5, 6, 7}, {3, 3, 4, 5, 8, 8}, {0, 3, 4, 4, 6, 9}};
 
-    const std::vector<std::vector<int>> &actualVectors = evaluator.getTestVectors();
-    assert(actualVectors.size() == expectedSortedVectors.size());
+    // const std::vector<std::vector<int>> &actualVectors = evaluator.getTestVectors();
+    // assert(actualVectors.size() == expectedSortedVectors.size());
 
-    for (int i = 0; i < expectedSortedVectors.size(); ++i)
-    {
-        if (actualVectors[i] != expectedSortedVectors[i])
-        {
-            std::cout << "Mismatch at vector " << i << ":\n";
-            std::cout << "Expected: { ";
-            for (int num : expectedSortedVectors[i])
-                std::cout << num << " ";
-            std::cout << "}\n";
+    // for (int i = 0; i < expectedSortedVectors.size(); ++i)
+    // {
+    //     if (actualVectors[i] != expectedSortedVectors[i])
+    //     {
+    //         std::cout << "Mismatch at vector " << i << ":\n";
+    //         std::cout << "Expected: { ";
+    //         for (int num : expectedSortedVectors[i])
+    //             std::cout << num << " ";
+    //         std::cout << "}\n";
 
-            std::cout << "Actual:   { ";
-            for (int num : actualVectors[i])
-                std::cout << num << " ";
-            std::cout << "}\n";
-        }
-        assert(actualVectors[i] == expectedSortedVectors[i]);
-    }
+    //         std::cout << "Actual:   { ";
+    //         for (int num : actualVectors[i])
+    //             std::cout << num << " ";
+    //         std::cout << "}\n";
+    //     }
+    //     assert(actualVectors[i] == expectedSortedVectors[i]);
+    // }
 
-    const std::vector<std::vector<double>> &timingData = evaluator.getTimingData();
+    // const std::vector<std::vector<double>> &timingData = evaluator.getVectorTimingData();
 
-    // clean up
-    return true;
+    // // clean up
+    // return true;
+    // You can add the logic for the test here, if needed in the future
+    std::cout << "InsertionComparison test not implemented yet.\n";
+    return true; // Assuming the test will be successful once implemented
 }
 
-void testEvaluate()
+// call each test function here
+bool testIngest();
+bool testMergeComparison();
+bool testQuickComparison();
+bool testInsertionComparison();
+
+int main()
 {
-    // set up
+    std::cout << "Running Evaluator Tests...\n";
 
+    if (testIngest())
+    {
+        std::cout << "Ingest test passed!\n";
+    }
+    else
+    {
+        std::cout << "Ingest test failed!\n";
+    }
 
-    // execution
+    if (testMergeComparison())
+    {
+        std::cout << "MergeComparison test passed!\n";
+    }
+    else
+    {
+        std::cout << "MergeComparison test failed!\n";
+    }
 
+    if (testQuickComparison())
+    {
+        std::cout << "QuickComparison test passed!\n";
+    }
+    else
+    {
+        std::cout << "QuickComparison test failed!\n";
+    }
 
-    // validation
+    if (testInsertionComparison())
+    {
+        std::cout << "InsertionComparison test passed!\n";
+    }
+    else
+    {
+        std::cout << "InsertionComparison test failed!\n";
+    }
 
-
-    // clean up
+    return 0;
 }

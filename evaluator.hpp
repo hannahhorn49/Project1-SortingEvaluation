@@ -11,19 +11,18 @@ class Evaluator
 {
 private:
     // these are the member variables to store the evaluation cases and timing data
-    std::vector<std::vector<int>> testVectors;
-    // std::vector<DoublyLinkedList<int>> testLists;
-    std::vector<std::vector<double>> timingData;
+    std::vector<std::vector<int>> testVectors; // holds test cases for vectors
+    std::vector<DoublyLinkedList> testLists;   // holds test cases for doubly linked lists
 
-    //OR WOULD I CREATE A VECTOR TO HOLD THE LINKED LISTS
-    DoublyLinkedList testLists;
+    std::vector<std::vector<double>> vectorTimingData; // holds timing data for vectors
+    std::vector<std::vector<double>> listTimingData;   // holds timing data for linked lists
 
 public:
-
-    DoublyLinkedList &getTestList() {return testLists;}
-
+    // public getters for accessing the private member variables
     const std::vector<std::vector<int>> &getTestVectors() const { return testVectors; }
-    const std::vector<std::vector<double>> &getTimingData() const { return timingData; }
+    const std::vector<DoublyLinkedList> &getTestLists() const { return testLists; }
+    const std::vector<std::vector<double>> &getVectorTimingData() const { return vectorTimingData; }
+    const std::vector<std::vector<double>> &getListTimingData() const { return listTimingData; }
 
     void Ingest(const std::string &filePath);
     void MergeComparison();
