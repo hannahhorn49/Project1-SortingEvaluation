@@ -22,23 +22,42 @@ void Evaluator::Ingest(const std::string &filePath)
 
     while (std::getline(inputFile, line))
     {
+        //std::cout << "going into while statement" << std::endl;
         ++lineCount;
         std::stringstream ss(line);
-        int number;
+        int number = 0;
 
         std::cout << "Line " << lineCount << ": " << line << "\n";
 
         // parse numbers in the line
         while (ss >> number)
         {
+            //OFFICE HOURS: 
+            //for doubly linked lists: - we are creating a linked list of linked lists? OR should we create a vector of linked lists 
+            DoublyLinkedList digitList;
+
+            //for vector
             std::vector<int> digitVector;
 
             std::string numStr = std::to_string(number);
             for (char c : numStr)
             {
+                //filling the doubly linked list
+                digitList.push_back(c - '0');
+
+                //filling the vector
                 digitVector.push_back(c - '0');
             }
 
+            //cannot push_back another list, so doing this: 
+
+            testLists.push_back(-1); //this is used as a placeholder: to tell where an ending of a list goes. used for debugging 
+            //first number would be negative one
+            //MAY NEED TO CHANGE THIS: 
+            digitList.update_head_tail(testLists.get_tail()); //updates the list and pushes back
+            //if we do vector of linked lists: it would be easier
+
+            //for vectors: 
             testVectors.push_back(digitVector);
 
             // concise debug print
@@ -46,12 +65,26 @@ void Evaluator::Ingest(const std::string &filePath)
             for (int digit : digitVector)
                 std::cout << digit << " ";
             std::cout << "}\n";
+
+
         }
     }
 
     inputFile.close();
 
-    std::cout << "--- Ingest Completed. Total vectors: " << testVectors.size() << " ---\n\n";
+    /*USE FOR FINDING LINKED LISTS: 
+    int counter = 0;
+    DLLNode *current = digitList.get_head();
+    while (current != nullptr)
+    {
+        if (current->value == -1)
+        {
+            counter ++;
+        }
+        current = current->next;
+    }*/
+
+    std::cout << "--- Ingest Completed. Total vectors: " << testVectors.size() << "---\n\n"; // << "---- Total linked lists: " << counter
 }
 
 void Evaluator::MergeComparison()
