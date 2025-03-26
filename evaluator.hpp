@@ -28,7 +28,7 @@ public:
     void MergeComparison();
     void QuickComparison();
     void InsertionComparison();
-    void Evaluate() const;
+    void Evaluate();
 };
 
 #endif

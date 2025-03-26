@@ -134,13 +134,15 @@ bool test_list_merge_sort()
     DLLNode *l_head = l.get_head();
     DLLNode *empty_head = empty.get_head();
     DLLNode *oneItem_head = oneItem.get_head();
+    std::cout << "Before merge sorting for list (l):" << std::endl;
+    l.print_list();
 
     // 2. execution
     DLLNode *test1 = l.DoublyLinkedList::DLL_merge_sort(l_head);
     DLLNode *test2 = l.DoublyLinkedList::DLL_merge_sort(empty_head);
     DLLNode *test3 = l.DoublyLinkedList::DLL_merge_sort(oneItem_head);
 
-    l.print_list();
+    //std::cout << "After merge sorting for list (l):" << l.print_list();
     // 3. validation
     assert(test1->value == 2);
     assert(test1->next->value == 5);
@@ -150,13 +152,18 @@ bool test_list_merge_sort()
     assert(test1->next->next->next->next->next == nullptr);
     DLLNode *l_tail = l.get_tail();
     assert(l_tail->value == 10);
+    std::cout << "Passed Case 1: Merge Sort for normal linked list unsorted " << std::endl;
+    std::cout << "Sorted List: " << std::endl;
+    l.print_list();
 
     assert(test2 == nullptr);
     assert(empty.get_tail() == nullptr);
+    std::cout << "Passed Case 2: Merge Sort for empty linked list" << std::endl;
 
     assert(test3->value == 64);
     assert(test3->prev == nullptr);
     assert(test3->next == nullptr);
+    std::cout << "Passed Case 3: Merge sort for one element linked list" << std::endl;
 
     // 4. clean up
     return true;
