@@ -247,3 +247,53 @@ bool test_list_quick_sort()
     // 4. clean up
     return true;
 }
+
+int main()
+{
+    // call each test function
+    bool vectorMergeSortTestPassed = test_vector_merge_sort();
+    bool vectorQuickSortTestPassed = test_vector_quick_sort();
+    bool vectorInsertionSortTestPassed = test_vector_insertion_sort();
+    bool listMergeSortTestPassed = test_list_merge_sort();
+  
+
+    // output results of test
+    std::cout << "Running Sorting Tests...\n";
+    if (vectorMergeSortTestPassed)
+    {
+        std::cout << "Vector Merge Sort Test Passed!\n";
+    }
+    else
+    {
+        std::cout << "Vector Merge Sort Test Failed.\n";
+    }
+
+    if (vectorQuickSortTestPassed)
+    {
+        std::cout << "Vector Quick Sort Test Passed!\n";
+    }
+    else
+    {
+        std::cout << "Vector Quick Sort Test Failed.\n";
+    }
+
+    if (vectorInsertionSortTestPassed)
+    {
+        std::cout << "Vector Insertion Sort Test Passed!\n";
+    }
+    else
+    {
+        std::cout << "Vector Insertion Sort Test Failed.\n";
+    }
+
+    if (listMergeSortTestPassed)
+    {
+        std::cout << "Doubly Linked List Merge Sort Test Passed!\n";
+    }
+    else
+    {
+        std::cout << "Doubly Linked List Merge Sort Test Failed.\n";
+    }
+
+    return 0;
+}
