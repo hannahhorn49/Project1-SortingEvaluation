@@ -247,6 +247,73 @@ void Evaluator::QuickComparison()
     std::cout << "--- QuickComparison Completed ---\n\n";
 }
 
+// void Evaluator::Evaluate()
+// {
+//     Evaluator test;
+//     test.Ingest("evaluation_cases.txt");
+//     test.MergeComparison();
+//     test.InsertionComparison();
+//     test.QuickComparison();
+
+//     const std::vector<std::vector<int>> &testVectors = test.getTestVectors();
+//     const std::vector<std::vector<double>> &vectorTimingData = test.getVectorTimingData();
+//     const std::vector<std::vector<double>> &listTimingData = test.getListTimingData();
+
+//     // open the file in order to save output in separate file (so not just in console)
+//     std::ofstream outputFile("comparison_results.txt");
+//     if (!outputFile.is_open())
+//     {
+//         std::cerr << "Error: Unable to open file for writing!" << std::endl;
+//         return;
+//     }
+
+//     // write headers to both the console and file
+//     std::cout << "-------------------------------------Time of Comparisons-------------------------------------" << std::endl;
+//     std::cout << "---------------------------------------------------------------------------------------------" << std::endl;
+//     std::cout << "||------- SORTED LIST ------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- || --------- Sort Used -------- ||" << std::endl;
+
+//     outputFile << "-------------------------------------Time of Comparisons-------------------------------------" << std::endl;
+//     outputFile << "---------------------------------------------------------------------------------------------" << std::endl;
+//     outputFile << "||------- SORTED LIST ------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- || --------- Sort Used -------- ||" << std::endl;
+
+//     for (int i = 0; i < testVectors.size(); i++)
+//     {
+//         std::string print_number = "";
+//         for (int j = 0; j < testVectors[i].size(); j++)
+//         {
+//             print_number += std::to_string(testVectors[i][j]);
+//         }
+
+//         auto write_result = [&](double time, const std::string &container_type, const std::string &sort_type)
+//         {
+//             std::ostringstream line;
+//             line << "|--------|---" << print_number << " ---| ------ | -------- "
+//                  << std::fixed << std::setprecision(6) << time
+//                  << " --------|------------- " << container_type << " -------------|------------- " << sort_type << " -----------|";
+//             std::cout << line.str() << std::endl;
+//             outputFile << line.str() << std::endl;
+//         };
+
+//         // MERGE sort results
+//         write_result(listTimingData[i][0], "Linked List", "MERGE");
+//         write_result(vectorTimingData[i][0], "Vector", "MERGE");
+
+//         // INSERTION sort results
+//         write_result(listTimingData[i + 9][0], "Linked List", "INSERTION");
+//         write_result(vectorTimingData[i + 9][0], "Vector", "INSERTION");
+
+//         // QUICK sort results
+//         write_result(listTimingData[i + 18][0], "Linked List", "QUICK");
+//         write_result(vectorTimingData[i + 18][0], "Vector", "QUICK");
+
+//         std::cout << "-----------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+//         outputFile << "-----------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+//     }
+
+//     // close the file after writing
+//     outputFile.close();
+//     std::cout << "Comparison results saved to 'comparison_results.txt'!" << std::endl;
+// }
 void Evaluator::Evaluate()
 {
     Evaluator test;
@@ -259,39 +326,29 @@ void Evaluator::Evaluate()
     const std::vector<std::vector<double>> &vectorTimingData = test.getVectorTimingData();
     const std::vector<std::vector<double>> &listTimingData = test.getListTimingData();
 
-    // open the file in order to save output in separate file (so not just in console)
-    std::ofstream outputFile("comparison_results.txt");
+    // open the CSV file for output (use a unique file name for each run, e.g., "run1.csv")
+    std::ofstream outputFile("run10.csv");
     if (!outputFile.is_open())
     {
         std::cerr << "Error: Unable to open file for writing!" << std::endl;
         return;
     }
 
-    // write headers to both the console and file
-    std::cout << "-------------------------------------Time of Comparisons-------------------------------------" << std::endl;
-    std::cout << "---------------------------------------------------------------------------------------------" << std::endl;
-    std::cout << "||------- SORTED LIST ------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- || --------- Sort Used -------- ||" << std::endl;
-
-    outputFile << "-------------------------------------Time of Comparisons-------------------------------------" << std::endl;
-    outputFile << "---------------------------------------------------------------------------------------------" << std::endl;
-    outputFile << "||------- SORTED LIST ------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- || --------- Sort Used -------- ||" << std::endl;
+    // write the CSV headers
+    outputFile << "Case,Data Structure,Sort Type,Time (Seconds)" << std::endl;
 
     for (int i = 0; i < testVectors.size(); i++)
     {
-        std::string print_number = "";
+        std::string case_number = "";
         for (int j = 0; j < testVectors[i].size(); j++)
         {
-            print_number += std::to_string(testVectors[i][j]);
+            case_number += std::to_string(testVectors[i][j]);
         }
 
+        // write each result to the CSV file
         auto write_result = [&](double time, const std::string &container_type, const std::string &sort_type)
         {
-            std::ostringstream line;
-            line << "|--------|---" << print_number << " ---| ------ | -------- "
-                 << std::fixed << std::setprecision(6) << time
-                 << " --------|------------- " << container_type << " -------------|------------- " << sort_type << " -----------|";
-            std::cout << line.str() << std::endl;
-            outputFile << line.str() << std::endl;
+            outputFile << case_number << "," << container_type << "," << sort_type << "," << std::fixed << std::setprecision(6) << time << std::endl;
         };
 
         // MERGE sort results
@@ -305,12 +362,9 @@ void Evaluator::Evaluate()
         // QUICK sort results
         write_result(listTimingData[i + 18][0], "Linked List", "QUICK");
         write_result(vectorTimingData[i + 18][0], "Vector", "QUICK");
-
-        std::cout << "-----------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-        outputFile << "-----------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
     }
 
     // close the file after writing
     outputFile.close();
-    std::cout << "Comparison results saved to 'comparison_results.txt'!" << std::endl;
+    std::cout << "Comparison results saved to 'run10.csv'!" << std::endl;
 }
