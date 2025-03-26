@@ -5,6 +5,7 @@
 #include <sstream>
 #include <chrono>
 #include <iostream>
+#include <string>
 
 void Evaluator::Ingest(const std::string &filePath)
 {
@@ -243,4 +244,53 @@ void Evaluator::QuickComparison()
     }
 
     std::cout << "--- QuickComparison Completed ---\n\n";
+}
+
+void Evaluator::Evaluate()
+{
+    Evaluator test;
+    test.Ingest("test_cases.txt");
+    test.MergeComparison();
+    test.InsertionComparison();
+    test.QuickComparison();
+
+    const std::vector<std::vector<int>> &testVectors = test.getTestVectors();
+    const std::vector<std::vector<double>> &vectorTimingData = test.getVectorTimingData();
+    //std::cout << vectorTimingData.size() << std::endl;
+    const std::vector<std::vector<double>> &listTimingData = test.getListTimingData();
+
+    std::cout << "-------------------------------------Time of Comparisons-------------------------------------" << std::endl;
+    std::cout << "---------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "||------- SORTED LIST ------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- || --------- Sort Used -------- ||" << std::endl;
+    //std::cout << testVectors.size() << std::endl;
+    //int index_sorts = 0;
+    for (int i = 0; i < testVectors.size(); i++)
+    {
+        std::string print_number = "";
+        //std:: cout << "past making string" << std::endl;
+        //std::cout << testVectors[i].size() << std::endl;
+        for (int j = 0; j < testVectors[i].size(); j++)
+        {
+            //convert this to string somehow
+            //std::cout << testVectors[i][j] << std::endl;
+            std::string test = std::to_string(testVectors[i][j]);
+            print_number += test;
+        }
+        std::cout << "|--------|---" << print_number << " ---| ------ | -------- " << listTimingData[i][0] << "--------|-------------  Linked List  -------------|-------------  MERGE -----------| " <<  std::endl;
+        std::cout << "|--------|---" << print_number << " ---| ------ | -------- " << vectorTimingData[i][0] << "--------|---------------  Vector  ---------------|-------------  MERGE -----------| " <<  std::endl;
+        
+        std::cout << "|--------|---" << print_number << " ---| ------ | -------- " << listTimingData[i+9][0] << "--------|-------------  Linked List  -------------|-----------  INSERTION ---------| " <<  std::endl;
+        std::cout << "|--------|---" << print_number << " ---| ------ | -------- " << vectorTimingData[i+9][0] << "--------|---------------  Vector  ---------------|-----------  INSERTION ---------| " <<  std::endl;
+        
+        std::cout << "|--------|---" << print_number << " ---| ------ | -------- " << listTimingData[i+18][0] << "--------|-------------  Linked List  -------------|-------------  QUICK -----------| " <<  std::endl;
+        std::cout << "|--------|---" << print_number << " ---| ------ | -------- " << vectorTimingData[i+18][0] << "--------|---------------  Vector  ---------------|-------------  QUICK -----------| " <<  std::endl;
+        std::cout << "-----------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+        
+        //for (int k = 0; k < listTimingData[i].size(); i++)
+        //{
+        //}
+        //k++;
+        
+    }
+    //std::cout << "------------------------------------------------------------------------------------------" << std::endl;
 }

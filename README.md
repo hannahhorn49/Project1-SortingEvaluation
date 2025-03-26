@@ -17,3 +17,6 @@ g++ -std=c++11 test_evaluator.cpp vector_sorter.cpp doubly_linked_list.cpp evalu
 ./a.out
 
 **TO RUN: the evaluation**
+g++ -o program main.cpp evaluator.cpp doubly_linked_list.cpp vector_sorter.cpp -o evaluate
+
+./evaluate.exe
