@@ -199,6 +199,7 @@ void DoublyLinkedList::DLL_insertion_sort(DLLNode *head){
             int temp = curr->value;
             curr->value = curr->prev->value;
             curr->prev->value = temp;
+            curr = curr->prev;
         }
         unsorted = next;
     }
