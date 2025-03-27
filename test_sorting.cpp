@@ -190,8 +190,11 @@ bool test_list_insertion_sort()
     // 2. execution
     no_nodes.DLL_insertion_sort(no_nodes_head);
     one_node.DLL_insertion_sort(one_node_head);
+    std::cout << "past first part execution" << std::endl;
     multiple_nodes.DLL_insertion_sort(multiple_nodes_head);
 
+
+    std::cout << "Past execution" << std::endl;
     // 3. validation
     assert(no_nodes.get_head() == nullptr);
     assert(no_nodes.get_tail() == nullptr);
@@ -208,6 +211,8 @@ bool test_list_insertion_sort()
     DLLNode *multiple_nodes_tail = multiple_nodes.get_tail();
     assert(multiple_nodes_tail->value == 38);
 
+
+    std::cout << "Passed tests for Insertion Sort on linked lists" << std::endl;
     // 4. clean up
     return true;
 }
@@ -251,17 +256,21 @@ bool test_list_quick_sort()
     DLLNode *multiple_nodes_tail = multiple_nodes.get_tail();
     assert(multiple_nodes_tail->value == 38);
 
+
+    std::cout << "Passed tests for linked list Quick sort" << std::endl;
     // 4. clean up
     return true;
 }
 
 int main()
 {
+    std::cout << "IN MAIN" << std::endl;
     // Individual sorting function tests
     bool vectorMergeSortTestPassed = test_vector_merge_sort();
     bool vectorQuickSortTestPassed = test_vector_quick_sort();
     bool vectorInsertionSortTestPassed = test_vector_insertion_sort();
     bool listMergeSortTestPassed = test_list_merge_sort();
+    //std::cout << "Past merge" << std::endl;
     bool listInsertionSortTestPassed = test_list_insertion_sort();
     bool listQuickSortTestPassed = test_list_quick_sort();
 
@@ -299,3 +308,4 @@ int main()
 
     return 0;
 }
+
