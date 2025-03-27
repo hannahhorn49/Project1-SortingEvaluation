@@ -9,6 +9,7 @@
 int main()
 {
     Evaluator tester;
+    tester.Ingest("evaluation_cases.txt");
     tester.Evaluate();
     return 0;
 }

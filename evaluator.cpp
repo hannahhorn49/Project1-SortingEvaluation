@@ -316,15 +316,18 @@ void Evaluator::QuickComparison()
 // }
 void Evaluator::Evaluate()
 {
-    Evaluator test;
-    test.Ingest("evaluation_cases.txt");
-    test.MergeComparison();
-    test.InsertionComparison();
-    test.QuickComparison();
+    //test.Ingest("evaluation_cases.txt");
+    const std::vector<std::vector<int>> &caseVectors;
+    const std::vector<DoublyLinkedList*> &caseDLL;
 
-    const std::vector<std::vector<int>> &testVectors = test.getTestVectors();
-    const std::vector<std::vector<double>> &vectorTimingData = test.getVectorTimingData();
-    const std::vector<std::vector<double>> &listTimingData = test.getListTimingData();
+
+    MergeComparison();
+    InsertionComparison();
+    QuickComparison();
+
+    const std::vector<std::vector<int>> &testVectors = getTestVectors();
+    const std::vector<std::vector<double>> &vectorTimingData = getVectorTimingData();
+    const std::vector<std::vector<double>> &listTimingData = getListTimingData();
 
     // open the CSV file for output (use a unique file name for each run, e.g., "run1.csv")
     std::ofstream outputFile("run10.csv");
