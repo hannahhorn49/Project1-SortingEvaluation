@@ -21,16 +21,6 @@ void Evaluator::Ingest(const std::string &filePath)
     std::string line;
     int lineCount = 0;
 
-    // Vectors to hold different sizes of data
-    std::vector<std::vector<int>> Vector100;
-    std::vector<std::vector<int>> Vector1000;
-    std::vector<std::vector<int>> Vector10000;
-
-    std::vector<DoublyLinkedList> List100;
-    std::vector<DoublyLinkedList> List1000;
-    std::vector<DoublyLinkedList> List10000;
-
-
 
     // loop through each line of file
     while (std::getline(inputFile, line))
@@ -54,21 +44,21 @@ void Evaluator::Ingest(const std::string &filePath)
         }
         if (currentLineNumbers.size() == 100)
         {
-            Vector100.push_back(currentLineNumbers);
-            List100.push_back(currentList);
+            getTestVectors100().push_back(currentLineNumbers);
+            getTestLists100().push_back(currentList);
         }
         else if (currentLineNumbers.size() == 1000)
         {
-            Vector1000.push_back(currentLineNumbers);
-            List1000.push_back(currentList);
+            getTestVectors1000().push_back(currentLineNumbers);
+            getTestLists1000().push_back(currentList);
         }
         else if (currentLineNumbers.size() == 10000)
         {
-            Vector10000.push_back(currentLineNumbers);
-            List10000.push_back(currentList);
+            getTestVectors10000().push_back(currentLineNumbers);
+            getTestLists10000().push_back(currentList);
         }
     }
-    //std::cout << Vector1000[0].size() << std::endl;
+    std::cout << getTestVectors1000()[0].size() << std::endl;
     //std::cout << List1000.size() << std::endl;
 
 }

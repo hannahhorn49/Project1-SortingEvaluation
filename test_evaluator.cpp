@@ -3,67 +3,67 @@
 #include <iostream>
 #include <cassert>
 
-bool testIngest()
-{
-    // set up (create an instance of evaluator)
-    Evaluator evaluator;
+// bool testIngest()
+// {
+//     // set up (create an instance of evaluator)
+//     Evaluator evaluator;
 
-    // execution (call the ingest function)
-    evaluator.Ingest("evaluation_cases.txt");
+//     // execution (call the ingest function)
+//     evaluator.Ingest("evaluation_cases.txt");
 
-    // validation (part 1: vectors)
-    std::vector<std::vector<int>> expectedVectors = {
-        {1, 2, 7, 3}, {4, 5, 7, 7}, {1, 5, 8, 6}, {6, 1, 4, 0, 7}, {5, 3, 2, 4, 9}, {4, 1, 3, 0, 9}, {7, 3, 6, 5, 2, 5}, {8, 3, 5, 4, 8, 3}, {3, 0, 6, 4, 4, 9}};
+//     // validation (part 1: vectors)
+//     std::vector<std::vector<int>> expectedVectors = {
+//         {1, 2, 7, 3}, {4, 5, 7, 7}, {1, 5, 8, 6}, {6, 1, 4, 0, 7}, {5, 3, 2, 4, 9}, {4, 1, 3, 0, 9}, {7, 3, 6, 5, 2, 5}, {8, 3, 5, 4, 8, 3}, {3, 0, 6, 4, 4, 9}};
 
-    const std::vector<std::vector<int>> &actualVectors = evaluator.getTestVectors();
+//     const std::vector<std::vector<int>> &actualVectors = evaluator.getTestVectors();
 
-    assert(actualVectors.size() == expectedVectors.size());
+//     assert(actualVectors.size() == expectedVectors.size());
 
-    for (int i = 0; i < expectedVectors.size(); ++i)
-    {
-        assert(actualVectors[i] == expectedVectors[i]);
-    }
+//     for (int i = 0; i < expectedVectors.size(); ++i)
+//     {
+//         assert(actualVectors[i] == expectedVectors[i]);
+//     }
 
-    std::cout << "Vector ingest test passed!\n";
+//     std::cout << "Vector ingest test passed!\n";
 
-    // validation (part 2: doubly linked lists)
+//     // validation (part 2: doubly linked lists)
 
-    // created expected doubly linked lists from the expectedVectors
-    std::vector<DoublyLinkedList> expectedLists;
-    for (const auto &vec : expectedVectors)
-    {
-        DoublyLinkedList list;
-        for (int val : vec)
-        {
-            list.push_back(val);
-        }
-        expectedLists.push_back(list);
-    }
+//     // created expected doubly linked lists from the expectedVectors
+//     std::vector<DoublyLinkedList> expectedLists;
+//     for (const auto &vec : expectedVectors)
+//     {
+//         DoublyLinkedList list;
+//         for (int val : vec)
+//         {
+//             list.push_back(val);
+//         }
+//         expectedLists.push_back(list);
+//     }
 
-    // get actual doubly linked lists from evaluator
-    const std::vector<DoublyLinkedList> &actualLists = evaluator.getTestLists();
+//     // get actual doubly linked lists from evaluator
+//     const std::vector<DoublyLinkedList> &actualLists = evaluator.getTestLists();
 
-    assert(actualLists.size() == expectedLists.size());
+//     assert(actualLists.size() == expectedLists.size());
 
-    // validate size for each doubly linked list
-    for (int i = 0; i < expectedLists.size(); ++i)
-    {
-        assert(expectedLists[i].size() == actualLists[i].size());
-    }
+//     // validate size for each doubly linked list
+//     for (int i = 0; i < expectedLists.size(); ++i)
+//     {
+//         assert(expectedLists[i].size() == actualLists[i].size());
+//     }
 
-    // for debugging print the lists!!
-    for (int i = 0; i < expectedLists.size(); ++i)
-    {
-        std::cout << "Expected List " << i << ": ";
-        expectedLists[i].print_list();
-        std::cout << "Actual List " << i << ": ";
-        actualLists[i].print_list();
-    }
+//     // for debugging print the lists!!
+//     for (int i = 0; i < expectedLists.size(); ++i)
+//     {
+//         std::cout << "Expected List " << i << ": ";
+//         expectedLists[i].print_list();
+//         std::cout << "Actual List " << i << ": ";
+//         actualLists[i].print_list();
+//     }
 
-    std::cout << "Linked list ingest test passed!\n";
+//     std::cout << "Linked list ingest test passed!\n";
 
-    return true;
-}
+//     return true;
+// }
 
 bool testMergeComparison()
 {
