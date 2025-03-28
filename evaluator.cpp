@@ -574,18 +574,18 @@ void Evaluator::MergeComparison()
 //     const std::vector<std::vector<int>> &List1000 = test.getTestLists1000();
 //     const std::vector<std::vector<int>> &List10000 = test.getTestLists10000();
 
-//     const std::vector<std::vector<int>> &vectorTimingData100 = test.VectorTimingData100();
-//     const std::vector<std::vector<int>> &vectorTimingData1000 = test.VectorTimingData1000();
-//     const std::vector<std::vector<int>> &vectorTimingData10000 = test.VectorTimingData10000();
+//     const std::vector<std::vector<int>> &vectorTimingData100 = test.getVectorTimingData100();
+//     const std::vector<std::vector<int>> &vectorTimingData1000 = test.getVectorTimingData1000();
+//     const std::vector<std::vector<int>> &vectorTimingData10000 = test.VectorgetTimingData10000();
 
-//     const std::vector<std::vector<int>> &listTimingData100 = test.ListTimingData100();
-//     const std::vector<std::vector<int>> &listTimingData1000 = test.ListTimingData1000();
-//     const std::vector<std::vector<int>> &listTimingData10000 = test.ListTimingData10000();
+//     const std::vector<std::vector<int>> &listTimingData100 = test.getListTimingData100();
+//     const std::vector<std::vector<int>> &listTimingData1000 = test.getListTimingData1000();
+//     const std::vector<std::vector<int>> &listTimingData10000 = test.getListTimingData10000();
 //     test.Ingest("evaluation_cases.txt");
 //     test.MergeComparison();
 //     test.InsertionComparison();
 //     test.QuickComparison();
-// }
+}
 
 //     // open the file in order to save output in separate file (so not just in console)
 //     std::ofstream outputFile("comparison_results.txt");
