@@ -11,9 +11,7 @@
 void Evaluator::Ingest(const std::string &filePath)
 {
 
-    
-
-    //THIS NOW WORKS (I believe)
+    // THIS NOW WORKS (I believe)
     std::ifstream inputFile(filePath); // open file
     if (!inputFile.is_open())
     {
@@ -24,14 +22,13 @@ void Evaluator::Ingest(const std::string &filePath)
     std::string line;
     int lineCount = 0;
 
-
     // loop through each line of file
     while (std::getline(inputFile, line))
     {
 
         std::vector<int> currentLineNumbers;
         DoublyLinkedList currentList;
-        //print(line)
+        // print(line)
         ++lineCount;
         std::stringstream ss(line);
         std::string number;
@@ -39,7 +36,7 @@ void Evaluator::Ingest(const std::string &filePath)
         std::cout << "Line " << lineCount << ": " << line << "\n";
 
         // Read all numbers in this line
-        while(std::getline(ss, number, ' '))
+        while (std::getline(ss, number, ' '))
         {
             int transformed = std::stoi(number);
             currentLineNumbers.push_back(transformed);
@@ -61,18 +58,15 @@ void Evaluator::Ingest(const std::string &filePath)
             List10000.push_back(currentList);
         }
     }
-    std::cout << getTestVectors1000()[0].size() << std::endl;
-    //std::cout << List1000.size() << std::endl;
-
+    // std::cout << getTestVectors1000().size() << std::endl;
+    // std::cout << List1000.size() << std::endl;
 }
-        
-    
 
-void Evaluator:: InsertionComparison()
+void Evaluator::InsertionComparison()
 {
     std::cout << "\n--- Starting InsertionComparison ---\n";
 
-    //LOOP 1
+    // LOOP 1
     for (size_t i = 0; i < Vector100.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -89,15 +83,14 @@ void Evaluator:: InsertionComparison()
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::insertion_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData100.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData100.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData100.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData100.back() << " ms\n";
 
         Vector100[i] = vecCopy; // update original vector with sorted values
-
 
         DoublyLinkedList &list = List100[i];
         DoublyLinkedList originalList = list;
@@ -106,7 +99,7 @@ void Evaluator:: InsertionComparison()
             list.push_back(val);
         }
 
-        //DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
         std::cout << "Original linked list (100)" << i << ": ";
@@ -122,12 +115,12 @@ void Evaluator:: InsertionComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData100.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData100.back() << " ms\n";
 
         List100[i] = list;
     }
 
-    //LOOP 2
+    // LOOP 2
     for (size_t i = 0; i < Vector1000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -149,11 +142,11 @@ void Evaluator:: InsertionComparison()
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData1000.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData1000.back() << " ms\n";
 
         Vector1000[i] = vecCopy; // update original vector with sorted values
 
-        DoublyLinkedList &list = List100[i];
+        DoublyLinkedList &list = List1000[i];
         for (int val : vec)
         {
             list.push_back(val);
@@ -175,18 +168,16 @@ void Evaluator:: InsertionComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData1000.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData1000.back() << " ms\n";
 
         List1000[i] = list;
     }
 
-
-
-    //LOOP 3
+    // LOOP 3
     for (size_t i = 0; i < Vector10000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
-        auto &vec = Vector1000[i];
+        auto &vec = Vector10000[i];
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
@@ -204,7 +195,7 @@ void Evaluator:: InsertionComparison()
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData10000.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData10000.back() << " ms\n";
 
         Vector10000[i] = vecCopy; // update original vector with sorted values
 
@@ -230,7 +221,7 @@ void Evaluator:: InsertionComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData10000.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
 
         List10000[i] = list;
     }
@@ -242,7 +233,7 @@ void Evaluator::QuickComparison()
 {
     std::cout << "\n--- Starting QuickComparison ---\n";
 
-    //LOOP 1
+    // LOOP 1
     for (size_t i = 0; i < Vector100.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -264,10 +255,9 @@ void Evaluator::QuickComparison()
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData100.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData100.back() << " ms\n";
 
         Vector100[i] = vecCopy; // update original vector with sorted values
-
 
         DoublyLinkedList &list = List100[i];
         DoublyLinkedList originalList = list;
@@ -276,7 +266,7 @@ void Evaluator::QuickComparison()
             list.push_back(val);
         }
 
-        //DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
         std::cout << "Original linked list (100)" << i << ": ";
@@ -292,12 +282,12 @@ void Evaluator::QuickComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData100.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData100.back() << " ms\n";
 
         List100[i] = list;
     }
 
-    //LOOP 2
+    // LOOP 2
     for (size_t i = 0; i < Vector1000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -319,7 +309,7 @@ void Evaluator::QuickComparison()
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData1000.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData1000.back() << " ms\n";
 
         Vector1000[i] = vecCopy; // update original vector with sorted values
 
@@ -345,14 +335,12 @@ void Evaluator::QuickComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData1000.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData1000.back() << " ms\n";
 
         List1000[i] = list;
     }
 
-
-
-    //LOOP 3
+    // LOOP 3
     for (size_t i = 0; i < Vector10000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -374,7 +362,7 @@ void Evaluator::QuickComparison()
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData10000.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData10000.back() << " ms\n";
 
         Vector10000[i] = vecCopy; // update original vector with sorted values
 
@@ -400,7 +388,7 @@ void Evaluator::QuickComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData10000.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
 
         List10000[i] = list;
     }
@@ -408,12 +396,11 @@ void Evaluator::QuickComparison()
     std::cout << "--- QuickComparison Completed ---\n\n";
 }
 
-
 void Evaluator::MergeComparison()
 {
     std::cout << "\n--- Starting MergeComparison ---\n";
 
-    //LOOP 1
+    // LOOP 1
     for (size_t i = 0; i < Vector100.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -435,10 +422,9 @@ void Evaluator::MergeComparison()
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData100.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData100.back() << " ms\n";
 
         Vector100[i] = vecCopy; // update original vector with sorted values
-
 
         DoublyLinkedList &list = List100[i];
         DoublyLinkedList originalList = list;
@@ -447,7 +433,7 @@ void Evaluator::MergeComparison()
             list.push_back(val);
         }
 
-        //DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
         std::cout << "Original linked list (100)" << i << ": ";
@@ -463,12 +449,12 @@ void Evaluator::MergeComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData100.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData100.back() << " ms\n";
 
         List100[i] = list;
     }
 
-    //LOOP 2
+    // LOOP 2
     for (size_t i = 0; i < Vector1000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -490,7 +476,7 @@ void Evaluator::MergeComparison()
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData1000.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData1000.back() << " ms\n";
 
         Vector1000[i] = vecCopy; // update original vector with sorted values
 
@@ -516,14 +502,12 @@ void Evaluator::MergeComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData1000.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData1000.back() << " ms\n";
 
         List1000[i] = list;
     }
 
-
-
-    //LOOP 3
+    // LOOP 3
     for (size_t i = 0; i < Vector10000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -545,7 +529,7 @@ void Evaluator::MergeComparison()
         std::cout << "Sorted vector " << i << ": { ";
         for (int num : vecCopy)
             std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData10000.back()[0] << " ms\n";
+        std::cout << "} Time: " << vectorTimingData10000.back() << " ms\n";
 
         Vector10000[i] = vecCopy; // update original vector with sorted values
 
@@ -571,7 +555,7 @@ void Evaluator::MergeComparison()
         // print the sorted linked list
         std::cout << "Sorted linked list " << i << ": ";
         list.print_list();
-        std::cout << "} Time: " << listTimingData10000.back()[0] << " ms\n";
+        std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
 
         List10000[i] = list;
     }
@@ -579,36 +563,29 @@ void Evaluator::MergeComparison()
     std::cout << "--- MergeComparison Completed ---\n\n";
 }
 
+// void Evaluator::Evaluate()
+// {
+//     Evaluator test;
+//     const std::vector<std::vector<int>> &Vector100 = test.getTestVectors100();
+//     const std::vector<std::vector<int>> &Vector1000 = test.getTestVectors1000();
+//     const std::vector<std::vector<int>> &Vector10000 = test.getTestVectors10000();
 
+//     const std::vector<std::vector<int>> &List100 = test.getTestLists100();
+//     const std::vector<std::vector<int>> &List1000 = test.getTestLists1000();
+//     const std::vector<std::vector<int>> &List10000 = test.getTestLists10000();
 
+//     const std::vector<std::vector<int>> &vectorTimingData100 = test.VectorTimingData100();
+//     const std::vector<std::vector<int>> &vectorTimingData1000 = test.VectorTimingData1000();
+//     const std::vector<std::vector<int>> &vectorTimingData10000 = test.VectorTimingData10000();
 
-void Evaluator::Evaluate()
-{
-    Evaluator test;
-    const std::vector<std::vector<int>> &Vector100 = test.getTestVectors100();
-    const std::vector<std::vector<int>> &Vector1000 = test.getTestVectors1000();
-    const std::vector<std::vector<int>> &Vector10000 = test.getTestVectors10000();
-
-    const std::vector<std::vector<int>> &List100 = test.getTestLists100();
-    const std::vector<std::vector<int>> &List1000 = test.getTestLists1000();
-    const std::vector<std::vector<int>> &List10000 = test.getTestLists10000();
-
-    const std::vector<std::vector<int>> &vectorTimingData100 = test.VectorTimingData100();
-    const std::vector<std::vector<int>> &vectorTimingData1000 = test.VectorTimingData1000();
-    const std::vector<std::vector<int>> &vectorTimingData10000 = test.VectorTimingData10000();
-
-    const std::vector<std::vector<int>> &listTimingData100 = test.ListTimingData100();
-    const std::vector<std::vector<int>> &listTimingData1000 = test.ListTimingData1000();
-    const std::vector<std::vector<int>> &listTimingData10000 = test.ListTimingData10000();
-    test.Ingest("evaluation_cases.txt");
-    test.MergeComparison();
-    test.InsertionComparison();
-    test.QuickComparison();
-
-
-    
-
- 
+//     const std::vector<std::vector<int>> &listTimingData100 = test.ListTimingData100();
+//     const std::vector<std::vector<int>> &listTimingData1000 = test.ListTimingData1000();
+//     const std::vector<std::vector<int>> &listTimingData10000 = test.ListTimingData10000();
+//     test.Ingest("evaluation_cases.txt");
+//     test.MergeComparison();
+//     test.InsertionComparison();
+//     test.QuickComparison();
+// }
 
 //     // open the file in order to save output in separate file (so not just in console)
 //     std::ofstream outputFile("comparison_results.txt");
@@ -671,23 +648,22 @@ void Evaluator::Evaluate()
 //     InsertionComparison();
 //     QuickComparison();
 
-    // const std::vector<std::vector<int>> &getTestVectors100() const { return Vector100; }
-    // const std::vector<std::vector<int>> &getTestVectors1000() const { return Vector1000; }
-    // const std::vector<std::vector<int>> &getTestVectors10000() const { return Vector10000; }
+// const std::vector<std::vector<int>> &getTestVectors100() const { return Vector100; }
+// const std::vector<std::vector<int>> &getTestVectors1000() const { return Vector1000; }
+// const std::vector<std::vector<int>> &getTestVectors10000() const { return Vector10000; }
 
-    // const std::vector<DoublyLinkedList> &getTestLists100() const { return List100; }
-    // const std::vector<DoublyLinkedList> &getTestLists1000() const { return List1000; }
-    // const std::vector<DoublyLinkedList> &getTestLists10000() const { return List10000; }
+// const std::vector<DoublyLinkedList> &getTestLists100() const { return List100; }
+// const std::vector<DoublyLinkedList> &getTestLists1000() const { return List1000; }
+// const std::vector<DoublyLinkedList> &getTestLists10000() const { return List10000; }
 
-    // const std::vector<std::vector<double>> &getVectorTimingData100() const { return vectorTimingData100; }
-    // const std::vector<std::vector<double>> &getListTimingData100() const { return listTimingData100; }
+// const std::vector<std::vector<double>> &getVectorTimingData100() const { return vectorTimingData100; }
+// const std::vector<std::vector<double>> &getListTimingData100() const { return listTimingData100; }
 
-    // const std::vector<std::vector<double>> &getVectorTimingData1000() const { return vectorTimingData1000; }
-    // const std::vector<std::vector<double>> &getListTimingData1000() const { return listTimingData1000; }
+// const std::vector<std::vector<double>> &getVectorTimingData1000() const { return vectorTimingData1000; }
+// const std::vector<std::vector<double>> &getListTimingData1000() const { return listTimingData1000; }
 
-    // const std::vector<std::vector<double>> &getVectorTimingData10000() const { return vectorTimingData10000; }
-    // const std::vector<std::vector<double>> &getListTimingData10000() const { return listTimingData10000; }
-
+// const std::vector<std::vector<double>> &getVectorTimingData10000() const { return vectorTimingData10000; }
+// const std::vector<std::vector<double>> &getListTimingData10000() const { return listTimingData10000; }
 
 //     // open the CSV file for output (use a unique file name for each run, e.g., "run1.csv")
 //     std::ofstream outputFile("run10.csv");
@@ -731,4 +707,3 @@ void Evaluator::Evaluate()
 //     outputFile.close();
 //     std::cout << "Comparison results saved to 'run10.csv'!" << std::endl;
 // }
-
