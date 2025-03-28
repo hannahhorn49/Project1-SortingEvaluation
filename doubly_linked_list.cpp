@@ -238,7 +238,7 @@ void DoublyLinkedList::DLL_insertion_sort(DLLNode *head)
     {
         DLLNode *curr = unsorted;
         DLLNode *next = unsorted->next;
-        while (curr != nullptr && curr->prev->value > curr->value)
+        while (curr->prev != nullptr && curr->prev->value > curr->value)
         {
             int temp = curr->value;
             curr->value = curr->prev->value;

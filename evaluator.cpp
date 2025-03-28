@@ -10,6 +10,7 @@
 
 void Evaluator::Ingest(const std::string &filePath)
 {
+    //THIS NOW WORKS (I believe)
     std::ifstream inputFile(filePath); // open file
     if (!inputFile.is_open())
     {
@@ -20,55 +21,59 @@ void Evaluator::Ingest(const std::string &filePath)
     std::string line;
     int lineCount = 0;
 
+    // Vectors to hold different sizes of data
+    std::vector<std::vector<int>> Vector100;
+    std::vector<std::vector<int>> Vector1000;
+    std::vector<std::vector<int>> Vector10000;
+
+    std::vector<DoublyLinkedList> List100;
+    std::vector<DoublyLinkedList> List1000;
+    std::vector<DoublyLinkedList> List10000;
+
+
+
     // loop through each line of file
     while (std::getline(inputFile, line))
     {
+
+        std::vector<int> currentLineNumbers;
+        DoublyLinkedList currentList;
+        //print(line)
         ++lineCount;
         std::stringstream ss(line);
-        int number = 0;
+        std::string number;
 
         std::cout << "Line " << lineCount << ": " << line << "\n";
 
-        while (ss >> number)
+        // Read all numbers in this line
+        while(std::getline(ss, number, ' '))
         {
-            // initialize for linked list
-            DoublyLinkedList digitList;
-
-            // initialize for vector
-            std::vector<int> digitVector;
-
-            // go from number -> string in order to separate the digits
-            std::string numStr = std::to_string(number);
-
-            // fill the vector AND linked list with the individual digits
-            for (char c : numStr)
-            {
-                int digit = c - '0';
-                digitVector.push_back(digit);
-                digitList.push_back(digit);
-            }
-
-            // store the digit vector in the testVectors container
-            testVectors.push_back(digitVector);
-
-            // store the digit linked list in the testLists container
-            testLists.push_back(digitList);
-
-            // debug print here
-            std::cout << "  Added number: " << number << " as vector: { ";
-            for (int digit : digitVector)
-                std::cout << digit << " ";
-            std::cout << "} and as linked list: ";
-            digitList.print_list();
+            int transformed = std::stoi(number);
+            currentLineNumbers.push_back(transformed);
+            currentList.push_back(transformed);
+        }
+        if (currentLineNumbers.size() == 100)
+        {
+            Vector100.push_back(currentLineNumbers);
+            List100.push_back(currentList);
+        }
+        else if (currentLineNumbers.size() == 1000)
+        {
+            Vector1000.push_back(currentLineNumbers);
+            List1000.push_back(currentList);
+        }
+        else if (currentLineNumbers.size() == 10000)
+        {
+            Vector10000.push_back(currentLineNumbers);
+            List10000.push_back(currentList);
         }
     }
+    //std::cout << Vector1000[0].size() << std::endl;
+    //std::cout << List1000.size() << std::endl;
 
-    inputFile.close();
-
-    // final print to show final count of vectors and linked lists
-    std::cout << "--- Ingest Completed. Total vectors: " << testVectors.size()
-              << ", Total linked lists: " << testLists.size() << " ---\n\n";
 }
+        
+    
 
 void Evaluator::MergeComparison()
 {
@@ -316,11 +321,6 @@ void Evaluator::QuickComparison()
 // }
 void Evaluator::Evaluate()
 {
-    //test.Ingest("evaluation_cases.txt");
-    const std::vector<std::vector<int>> &caseVectors;
-    const std::vector<DoublyLinkedList*> &caseDLL;
-
-
     MergeComparison();
     InsertionComparison();
     QuickComparison();
@@ -371,3 +371,4 @@ void Evaluator::Evaluate()
     outputFile.close();
     std::cout << "Comparison results saved to 'run10.csv'!" << std::endl;
 }
+

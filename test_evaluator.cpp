@@ -9,7 +9,7 @@ bool testIngest()
     Evaluator evaluator;
 
     // execution (call the ingest function)
-    evaluator.Ingest("test_cases.txt");
+    evaluator.Ingest("evaluation_cases.txt");
 
     // validation (part 1: vectors)
     std::vector<std::vector<int>> expectedVectors = {
@@ -71,7 +71,7 @@ bool testMergeComparison()
     Evaluator evaluator;
 
     // execution
-    evaluator.Ingest("test_cases.txt");
+    evaluator.Ingest("evaluation_cases.txt");
     evaluator.MergeComparison();
 
     // validation (part 1: vectors - hardcode them sorted)
@@ -156,7 +156,7 @@ bool testQuickComparison()
     Evaluator evaluator;
 
     // execution
-    evaluator.Ingest("test_cases.txt");
+    evaluator.Ingest("evaluation_cases.txt");
     evaluator.QuickComparison();
 
     // validation (part 1: vectors - hardcode them sorted)
@@ -241,7 +241,7 @@ bool testInsertionComparison()
     Evaluator evaluator;
 
     // execution
-    evaluator.Ingest("test_cases.txt");
+    evaluator.Ingest("evaluation_cases.txt");
     evaluator.InsertionComparison();
 
     // validation (part 1: vectors - hardcode them sorted)

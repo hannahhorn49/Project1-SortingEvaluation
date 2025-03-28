@@ -12,6 +12,8 @@ public:
     DLLNode(int v, DLLNode *n, DLLNode *p);
 
 private:
+
+
 };
 
 class DoublyLinkedList
@@ -26,7 +28,6 @@ private:
     DLLNode *merge(DLLNode *one_node, DLLNode *two_node);
 
 public:
-    // basic outline: will fix them further down the road
     DoublyLinkedList();
     DoublyLinkedList(const DoublyLinkedList &other); // for evalutor class
     DLLNode *DLL_merge_sort(DLLNode *one_head);
