@@ -29,6 +29,8 @@ public:
     void QuickComparison();
     void InsertionComparison();
     void Evaluate();
+
+
 };
 
 #endif

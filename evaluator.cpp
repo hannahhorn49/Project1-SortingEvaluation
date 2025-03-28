@@ -10,6 +10,7 @@
 
 void Evaluator::Ingest(const std::string &filePath)
 {
+    //THIS NOW WORKS (I believe)
     std::ifstream inputFile(filePath); // open file
     if (!inputFile.is_open())
     {
@@ -21,188 +22,58 @@ void Evaluator::Ingest(const std::string &filePath)
     int lineCount = 0;
 
     // Vectors to hold different sizes of data
-    std::vector<int> Vector100[4];
-    std::vector<int> currentLineNumbers;
+    std::vector<std::vector<int>> Vector100;
+    std::vector<std::vector<int>> Vector1000;
+    std::vector<std::vector<int>> Vector10000;
 
-    // std::vector<std::vector<int>> Vector100; // 4 vectors of size 100
-    // std::vector<std::vector<int>> Vector1000; // 4 vectors of size 1000
-    // std::vector<std::vector<int>> Vector10000; // 4 vectors of size 10000
+    std::vector<DoublyLinkedList> List100;
+    std::vector<DoublyLinkedList> List1000;
+    std::vector<DoublyLinkedList> List10000;
 
-    // std::vector<DoublyLinkedList*> List100; // 4 vectors of DoublyLinkedList for size 100
-    // std::vector<DoublyLinkedList*> List1000; // 4 vectors of DoublyLinkedList for size 1000
-    // std::vector<DoublyLinkedList*> List10000; // 4 vectors of DoublyLinkedList for size 10000
 
 
     // loop through each line of file
     while (std::getline(inputFile, line))
     {
+
+        std::vector<int> currentLineNumbers;
+        DoublyLinkedList currentList;
+        //print(line)
         ++lineCount;
         std::stringstream ss(line);
-        int number = 0;
+        std::string number;
 
         std::cout << "Line " << lineCount << ": " << line << "\n";
 
-        
-        // Temporary containers for current line's vector and linked list
-        //std::vector<int> currentVector;
-        //DoublyLinkedList* currentList;
-
         // Read all numbers in this line
-        while (ss >> number)
+        while(std::getline(ss, number, ' '))
         {
-            //currentLineNumbers.push_back(number);
-            // Convert number to string to extract digits
-            std::string numStr = std::to_string(number);
-
-            //Fill the vector and linked list with digits
-            for (char c : numStr)
-            {
-                int digit = c - '0';  // Convert char to integer
-                currentLineNumbers.push_back(digit);
-                //currentVector.push_back(digit);
-                //currentList.push_back(digit);
-            }
+            int transformed = std::stoi(number);
+            currentLineNumbers.push_back(transformed);
+            currentList.push_back(transformed);
         }
+        if (currentLineNumbers.size() == 100)
+        {
+            Vector100.push_back(currentLineNumbers);
+            List100.push_back(currentList);
+        }
+        else if (currentLineNumbers.size() == 1000)
+        {
+            Vector1000.push_back(currentLineNumbers);
+            List1000.push_back(currentList);
+        }
+        else if (currentLineNumbers.size() == 10000)
+        {
+            Vector10000.push_back(currentLineNumbers);
+            List10000.push_back(currentList);
+        }
+    }
+    //std::cout << Vector1000[0].size() << std::endl;
+    //std::cout << List1000.size() << std::endl;
 
-        // Determine the size of the current data
-        //size_t dataSize = currentVector.size();
+}
         
-        size_t currentIndex = 0;
-
-        for (int num : currentLineNumbers)
-        {
-            if (Vector100[currentIndex].size() < 100)
-            {
-                // Add number to the current vector if it has space
-                Vector100[currentIndex].push_back(num);
-            }
-            else
-            {
-                // Move to the next vector once the current vector has 100 elements
-                currentIndex++;
-                if (currentIndex >= 4) 
-                {
-                    std::cout << "Warning: Exceeded 4 vectors for size 100. Some data will be discarded.\n";
-                    break;
-                }
-                Vector100[currentIndex].push_back(num); // Add number to the next vector
-            }
-        }
-
-        // Clear the temporary container for the next line
-        currentLineNumbers.clear();
-    }
-
-    inputFile.close();
-
-    // Final print to show final count of vectors
-    std::cout << "--- Ingest Completed. "
-              << "Total vectors of size 100: " << Vector100[0].size()
-              << ", " << Vector100[1].size()
-              << ", " << Vector100[2].size()
-              << ", " << Vector100[3].size()
-              << " ---\n\n";
-
-        // Classify data into size groups
-        // if (dataSize == 100)
-        // {
-        //     Vector100.push_back(currentVector);
-        //     //List100.push_back(currentList);
-        // }
-        // else if (dataSize == 1000)
-        // {
-        //     Vector1000.push_back(currentVector);
-        //     //List1000.push_back(currentList);
-        // }
-        // else if (dataSize == 10000)
-        // {
-        //     Vector10000.push_back(currentVector);
-        //     //List10000.push_back(currentList);
-        // }
-        // else
-        // {
-        //     std::cout << "Warning: Skipping data with unsupported size " << dataSize << "\n";
-        // }
-    }
-
-    //inputFile.close();
-
-    // Final print to show final count of vectors and linked lists
-    // std::cout << "--- Ingest Completed. "
-    //           << "Total vectors of size 100: " << Vector100.size()
-    //           << ", Total linked lists of size 100: " << List100.size()
-    //           << ", Total vectors of size 1000: " << Vector1000.size()
-    //           << ", Total linked lists of size 1000: " << List1000.size()
-    //           << ", Total vectors of size 10000: " << Vector10000.size()
-    //           << ", Total linked lists of size 10000: " << List10000.size()
-    //           << " ---\n\n";
-    //std::cout << "total vectors of size 100:" << Vector100.size() << std::endl;
-
-    //     // initialize for linked list
-    //     DoublyLinkedList digitList;
-
-    //     // initialize for vector
-    //     std::vector<int> digitVector;
-    //     while (ss >> number)
-    //     {
-
-
-    //         // go from number -> string in order to separate the digits
-    //         std::string numStr = std::to_string(number);
-
-    //         // fill the vector AND linked list with the individual digits
-    //         for (char c : numStr)
-    //         {
-    //             int digit = c - '0';
-    //             digitVector.push_back(digit);
-    //             digitList.push_back(digit);
-    //         }
-    //     }
-
-    //     int numDigits = 100;//digitVector.size();
-    //     std::cout << numDigits << std::endl;
-
-    //     if (numDigits == 100)
-    //     {
-    //         // Assign to the vectors of size 100
-    //         Vector100[0].push_back(digitVector); // Store in the first vector of size 100
-    //         List100[0].push_back(&digitList);   // Store in the first List of size 100
-    //     }
-    //     else if (numDigits == 1000)
-    //     {
-    //         // Assign to the vectors of size 1000
-    //         Vector1000[0].push_back(digitVector); // Store in the first vector of size 1000
-    //         List1000[0].push_back(&digitList);   // Store in the first List of size 1000
-    //     }
-    //     else if (numDigits == 10000)
-    //     {
-    //         // Assign to the vectors of size 10000
-    //         Vector10000[0].push_back(digitVector); // Store in the first vector of size 10000
-    //         List10000[0].push_back(&digitList);   // Store in the first List of size 10000
-    //     }
     
-    //     // if (num)
-
-    //     //     // store the digit vector in the testVectors container
-    //     //     testVectors.push_back(digitVector);
-
-    //     //     // store the digit linked list in the testLists container
-    //     //     testLists.push_back(digitList);
-
-    //     //     // debug print here
-    //     //     std::cout << "  Added number: " << number << " as vector: { ";
-    //     //     for (int digit : digitVector)
-    //     //         std::cout << digit << " ";
-    //     //     std::cout << "} and as linked list: ";
-    //     //     digitList.print_list();
-
-    // }
-
-    // inputFile.close();
-
-    // // final print to show final count of vectors and linked lists
-    // std::cout << "--- Ingest Completed. Total vectors: " << Vector100[0].size()
-    //           << ", Total linked lists: " << List100[0].size() << " ---\n\n";
 
 void Evaluator::MergeComparison()
 {
@@ -450,38 +321,6 @@ void Evaluator::QuickComparison()
 // }
 void Evaluator::Evaluate()
 {
-    //test.Ingest("evaluation_cases.txt");
-    // std::vector<std::vector<int>> Vector1size100;
-    // std::vector<std::vector<int>> Vector2size100;
-    // std::vector<std::vector<int>> Vector3size100;
-    // std::vector<std::vector<int>> Vector4size100;
-
-    // std::vector<DoublyLinkedList*> List1size100;
-    // std::vector<DoublyLinkedList*> List2size100;
-    // std::vector<DoublyLinkedList*> List2size100;
-    // std::vector<DoublyLinkedList*> List2size100;
-
-    // std::vector<std::vector<int>> Vector1size1000;
-    // std::vector<std::vector<int>> Vector2size1000;
-    // std::vector<std::vector<int>> Vector3size1000;
-    // std::vector<std::vector<int>> Vector4size1000;
-
-    // std::vector<DoublyLinkedList*> List1size1000;
-    // std::vector<DoublyLinkedList*> List2size1000;
-    // std::vector<DoublyLinkedList*> List2size1000;
-    // std::vector<DoublyLinkedList*> List2size1000;
-
-    // std::vector<std::vector<int>> Vector1size10000;
-    // std::vector<std::vector<int>> Vector2size10000;
-    // std::vector<std::vector<int>> Vector3size10000;
-    // std::vector<std::vector<int>> Vector4size10000;
-
-
-    // std::vector<DoublyLinkedList*> List1size10000;
-    // std::vector<DoublyLinkedList*> List2size10000;
-    // std::vector<DoublyLinkedList*> List2size10000;
-    // std::vector<DoublyLinkedList*> List2size10000;
-
     MergeComparison();
     InsertionComparison();
     QuickComparison();
@@ -532,3 +371,4 @@ void Evaluator::Evaluate()
     outputFile.close();
     std::cout << "Comparison results saved to 'run10.csv'!" << std::endl;
 }
+
