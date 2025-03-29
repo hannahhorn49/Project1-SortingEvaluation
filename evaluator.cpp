@@ -66,6 +66,8 @@ void Evaluator::InsertionComparison()
 {
     std::cout << "\n--- Starting InsertionComparison ---\n";
 
+
+
     // LOOP 1
     for (size_t i = 0; i < Vector100.size(); ++i)
     {
