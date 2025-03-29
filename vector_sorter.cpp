@@ -199,26 +199,25 @@ void VectorSorter::quick_sort_helper(std::vector<int> &vec, int left, int right)
     }
 }
 
-
 void VectorSorter::insertion_sort(std::vector<int> &vec)
 {
-    //case 1: empty
+    // case 1: empty
     if (vec.size() == 0)
     {
-        
     }
-    //everything else: incldues the vectors with same numbers 
-    else{
+    // everything else: incldues the vectors with same numbers
+    else
+    {
         for (int i = 1; i < vec.size(); i++)
         {
             int cursor = i;
             int temp = vec[i];
-            while (cursor > 0 && temp<vec[cursor-1])
+            while (cursor > 0 && temp < vec[cursor - 1])
             {
-                vec[cursor] = vec[cursor-1];
+                vec[cursor] = vec[cursor - 1];
                 cursor--;
             }
-            vec[cursor]=temp;
+            vec[cursor] = temp;
         }
     }
 }

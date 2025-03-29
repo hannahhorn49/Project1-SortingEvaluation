@@ -10,8 +10,8 @@
 
 void Evaluator::Ingest(const std::string &filePath)
 {
+    std::cout << "Ingest() started" << std::endl;
 
-    // THIS NOW WORKS (I believe)
     std::ifstream inputFile(filePath); // open file
     if (!inputFile.is_open())
     {
@@ -22,20 +22,22 @@ void Evaluator::Ingest(const std::string &filePath)
     std::string line;
     int lineCount = 0;
 
+    // debuggin
+    std::cout << "Starting file ingestion from: " << filePath << std::endl;
+
     // loop through each line of file
     while (std::getline(inputFile, line))
     {
 
         std::vector<int> currentLineNumbers;
         DoublyLinkedList currentList;
-        // print(line)
         ++lineCount;
         std::stringstream ss(line);
         std::string number;
 
-        std::cout << "Line " << lineCount << ": " << line << "\n";
+        // std::cout << "Line " << lineCount << ": " << line << "\n";
 
-        // Read all numbers in this line
+        // read all numbers in this line
         while (std::getline(ss, number, ' '))
         {
             int transformed = std::stoi(number);
@@ -58,15 +60,12 @@ void Evaluator::Ingest(const std::string &filePath)
             List10000.push_back(currentList);
         }
     }
-    // std::cout << getTestVectors1000().size() << std::endl;
-    // std::cout << List1000.size() << std::endl;
+    std::cout << "File ingestion complete. Processed " << lineCount << " lines.\n";
 }
 
 void Evaluator::InsertionComparison()
 {
     std::cout << "\n--- Starting InsertionComparison ---\n";
-
-
 
     // LOOP 1
     for (size_t i = 0; i < Vector100.size(); ++i)
@@ -76,10 +75,8 @@ void Evaluator::InsertionComparison()
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
@@ -87,15 +84,18 @@ void Evaluator::InsertionComparison()
         auto end = std::chrono::high_resolution_clock::now();
         vectorTimingData100.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData100.back() << " ms\n";
+        // debuggin more
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData100.back() << " ms\n";
 
         Vector100[i] = vecCopy; // update original vector with sorted values
 
+        // work with a linked list
         DoublyLinkedList &list = List100[i];
-        DoublyLinkedList originalList = list;
+        // debugging step: make sure list is empty
+        list.clear();
+        // DoublyLinkedList originalList = list;
         for (int val : vec)
         {
             list.push_back(val);
@@ -104,20 +104,26 @@ void Evaluator::InsertionComparison()
         // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list (100)" << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
+
+        // list.DLL_insertion_sort(list.get_head());
         list.DLL_insertion_sort(list.get_head());
         auto listEnd = std::chrono::high_resolution_clock::now();
         listTimingData100.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
-        // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData100.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        // list.print_partial_list();
+        // std::cout << "Time: " << listTimingData100.back() << " ms\n";
 
         List100[i] = list;
     }
@@ -130,36 +136,39 @@ void Evaluator::InsertionComparison()
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::insertion_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData1000.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData1000.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData1000.back() << " ms\n";
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData1000.back() << " ms\n";
 
         Vector1000[i] = vecCopy; // update original vector with sorted values
 
         DoublyLinkedList &list = List1000[i];
+        list.clear();
         for (int val : vec)
         {
             list.push_back(val);
         }
 
-        DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list " << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
@@ -168,9 +177,9 @@ void Evaluator::InsertionComparison()
         listTimingData1000.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
         // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData1000.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        //  list.print_partial_list();
+        //  std::cout << "Time: " << listTimingData1000.back() << " ms\n";
 
         List1000[i] = list;
     }
@@ -183,36 +192,39 @@ void Evaluator::InsertionComparison()
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::insertion_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData10000.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData10000.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData10000.back() << " ms\n";
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData10000.back() << " ms\n";
 
         Vector10000[i] = vecCopy; // update original vector with sorted values
 
         DoublyLinkedList &list = List10000[i];
+        list.clear();
         for (int val : vec)
         {
             list.push_back(val);
         }
 
-        DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list " << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
@@ -221,14 +233,14 @@ void Evaluator::InsertionComparison()
         listTimingData10000.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
         // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        // list.print_list();
+        // std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
 
         List10000[i] = list;
     }
 
-    std::cout << "--- MergeComparison Completed ---\n\n";
+    std::cout << "--- InsertionComparison Completed ---\n\n";
 }
 
 void Evaluator::QuickComparison()
@@ -243,26 +255,27 @@ void Evaluator::QuickComparison()
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::quick_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData100.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData100.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData100.back() << " ms\n";
+        // debuggin more
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData100.back() << " ms\n";
 
         Vector100[i] = vecCopy; // update original vector with sorted values
 
+        // work with a linked list
         DoublyLinkedList &list = List100[i];
-        DoublyLinkedList originalList = list;
+        // debugging step: make sure list is empty
+        list.clear();
+        // DoublyLinkedList originalList = list;
         for (int val : vec)
         {
             list.push_back(val);
@@ -271,20 +284,26 @@ void Evaluator::QuickComparison()
         // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list (100)" << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
+
+        // list.DLL_insertion_sort(list.get_head());
         list.DLL_quick_sort(list.get_head());
         auto listEnd = std::chrono::high_resolution_clock::now();
         listTimingData100.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
-        // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData100.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        // list.print_partial_list();
+        // std::cout << "Time: " << listTimingData100.back() << " ms\n";
 
         List100[i] = list;
     }
@@ -297,36 +316,39 @@ void Evaluator::QuickComparison()
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::quick_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData1000.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData1000.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData1000.back() << " ms\n";
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData1000.back() << " ms\n";
 
         Vector1000[i] = vecCopy; // update original vector with sorted values
 
-        DoublyLinkedList &list = List100[i];
+        DoublyLinkedList &list = List1000[i];
+        list.clear();
         for (int val : vec)
         {
             list.push_back(val);
         }
 
-        DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list " << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
@@ -335,9 +357,9 @@ void Evaluator::QuickComparison()
         listTimingData1000.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
         // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData1000.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        // list.print_partial_list();
+        // std::cout << "Time: " << listTimingData1000.back() << " ms\n";
 
         List1000[i] = list;
     }
@@ -346,40 +368,43 @@ void Evaluator::QuickComparison()
     for (size_t i = 0; i < Vector10000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
-        auto &vec = Vector1000[i];
+        auto &vec = Vector10000[i];
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::quick_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData10000.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData10000.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData10000.back() << " ms\n";
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData10000.back() << " ms\n";
 
         Vector10000[i] = vecCopy; // update original vector with sorted values
 
         DoublyLinkedList &list = List10000[i];
+        list.clear();
         for (int val : vec)
         {
             list.push_back(val);
         }
 
-        DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list " << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
@@ -388,9 +413,9 @@ void Evaluator::QuickComparison()
         listTimingData10000.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
         // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        // list.print_list();
+        // std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
 
         List10000[i] = list;
     }
@@ -410,26 +435,27 @@ void Evaluator::MergeComparison()
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::merge_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData100.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData100.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData100.back() << " ms\n";
+        // debuggin more
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData100.back() << " ms\n";
 
         Vector100[i] = vecCopy; // update original vector with sorted values
 
+        // work with a linked list
         DoublyLinkedList &list = List100[i];
-        DoublyLinkedList originalList = list;
+        // debugging step: make sure list is empty
+        list.clear();
+        // DoublyLinkedList originalList = list;
         for (int val : vec)
         {
             list.push_back(val);
@@ -438,20 +464,26 @@ void Evaluator::MergeComparison()
         // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list (100)" << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
+
+        // list.DLL_insertion_sort(list.get_head());
         list.DLL_merge_sort(list.get_head());
         auto listEnd = std::chrono::high_resolution_clock::now();
         listTimingData100.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
-        // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData100.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        // list.print_partial_list();
+        // std::cout << "Time: " << listTimingData100.back() << " ms\n";
 
         List100[i] = list;
     }
@@ -464,36 +496,39 @@ void Evaluator::MergeComparison()
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::merge_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData1000.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData1000.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData1000.back() << " ms\n";
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData1000.back() << " ms\n";
 
         Vector1000[i] = vecCopy; // update original vector with sorted values
 
-        DoublyLinkedList &list = List100[i];
+        DoublyLinkedList &list = List1000[i];
+        list.clear();
         for (int val : vec)
         {
             list.push_back(val);
         }
 
-        DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list " << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
@@ -502,9 +537,9 @@ void Evaluator::MergeComparison()
         listTimingData1000.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
         // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData1000.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        // list.print_partial_list();
+        // std::cout << "Time: " << listTimingData1000.back() << " ms\n";
 
         List1000[i] = list;
     }
@@ -513,51 +548,54 @@ void Evaluator::MergeComparison()
     for (size_t i = 0; i < Vector10000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
-        auto &vec = Vector1000[i];
+        auto &vec = Vector10000[i];
         std::vector<int> vecCopy = vec;
 
         // for debuggin!!
-        std::cout << "Original vector " << i << ": { ";
-        for (int num : vec)
-            std::cout << num << " ";
-        std::cout << "}\n";
+        // std::cout << "Original vector " << i << ": ";
+        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
         VectorSorter::merge_sort(vecCopy);
         auto end = std::chrono::high_resolution_clock::now();
-        vectorTimingData10000.push_back({std::chrono::duration<double, std::milli>(end - start).count()});
+        vectorTimingData10000.push_back(std::chrono::duration<double, std::milli>(end - start).count());
 
-        std::cout << "Sorted vector " << i << ": { ";
-        for (int num : vecCopy)
-            std::cout << num << " ";
-        std::cout << "} Time: " << vectorTimingData10000.back() << " ms\n";
+        // std::cout << "Sorted vector " << i << ": ";
+        // VectorSorter::print_vector(vecCopy);
+        // std::cout << "Time: " << vectorTimingData10000.back() << " ms\n";
 
         Vector10000[i] = vecCopy; // update original vector with sorted values
 
         DoublyLinkedList &list = List10000[i];
+        list.clear();
         for (int val : vec)
         {
             list.push_back(val);
         }
 
-        DoublyLinkedList originalList = list;
+        // DoublyLinkedList originalList = list;
 
         // debuggin!
-        std::cout << "Original linked list " << i << ": ";
-        originalList.print_list();
-        std::cout << "\n";
+        // std::cout << "Original linked list " << i << ": ";
+        // list.print_partial_list(); // Print first 3 and last 3 elements
+
+        if (list.get_head() == nullptr)
+        {
+            std::cout << "Warning: List " << i << " is empty, skipping sort.\n";
+            continue;
+        }
 
         // sort the original linked list and measure time
         auto listStart = std::chrono::high_resolution_clock::now();
         list.DLL_merge_sort(list.get_head());
         auto listEnd = std::chrono::high_resolution_clock::now();
-        listTimingData1000.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
+        listTimingData10000.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
         // print the sorted linked list
-        std::cout << "Sorted linked list " << i << ": ";
-        list.print_list();
-        std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
+        // std::cout << "Sorted linked list " << i << ": ";
+        // list.print_list();
+        // std::cout << "} Time: " << listTimingData10000.back() << " ms\n";
 
         List10000[i] = list;
     }
@@ -587,7 +625,6 @@ void Evaluator::MergeComparison()
 //     test.MergeComparison();
 //     test.InsertionComparison();
 //     test.QuickComparison();
-}
 
 //     // open the file in order to save output in separate file (so not just in console)
 //     std::ofstream outputFile("comparison_results.txt");

@@ -224,6 +224,19 @@ void DoublyLinkedList::update_head_tail(DLLNode *new_head)
     }
 }
 
+void DoublyLinkedList::clear()
+{
+    DLLNode *current = head;
+    while (current != nullptr)
+    {
+        DLLNode *nextNode = current->next;
+        delete current;
+        current = nextNode;
+    }
+    head = nullptr;
+    tail = nullptr;
+}
+
 void DoublyLinkedList::DLL_insertion_sort(DLLNode *head)
 {
     if (head == nullptr || head->next == nullptr)

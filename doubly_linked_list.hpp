@@ -12,8 +12,6 @@ public:
     DLLNode(int v, DLLNode *n, DLLNode *p);
 
 private:
-
-
 };
 
 class DoublyLinkedList
@@ -37,6 +35,7 @@ public:
     // to help with testing:
     DLLNode *get_head() const { return head; }
     DLLNode *get_tail() { return tail; }
+    void clear();
 
     // for testing!!
     void update_head_tail(DLLNode *new_head);
