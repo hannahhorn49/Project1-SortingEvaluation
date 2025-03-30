@@ -536,11 +536,6 @@ void Evaluator::MergeComparison()
         auto listEnd = std::chrono::high_resolution_clock::now();
         listTimingData1000.push_back({std::chrono::duration<double, std::milli>(listEnd - listStart).count()});
 
-        // print the sorted linked list
-        // std::cout << "Sorted linked list " << i << ": ";
-        // list.print_partial_list();
-        // std::cout << "Time: " << listTimingData1000.back() << " ms\n";
-
         List1000[i] = list;
     }
 
