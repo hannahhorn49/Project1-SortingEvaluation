@@ -18,9 +18,9 @@ g++ -o program test_evaluator.cpp vector_sorter.cpp doubly_linked_list.cpp evalu
 
 
 **TO RUN: the evaluation**
-g++ -o program main.cpp evaluator.cpp doubly_linked_list.cpp vector_sorter.cpp -o evaluate
+g++ -std=c++11 main.cpp evaluator.cpp doubly_linked_list.cpp vector_sorter.cpp
 
-./evaluate.out
+./a.out  
 
 **FOR WINDOWS: the evaluation:**
 g++ -O2 -std=c++11 "-Wl,--stack=268435456" -o program main.cpp evaluator.cpp doubly_linked_list.cpp vector_sorter.cpp -o evaluate
