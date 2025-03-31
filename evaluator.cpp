@@ -364,22 +364,30 @@ void Evaluator::QuickComparison()
         List1000[i] = list;
     }
 
+    //std::cout << "past loop 2" << std::endl;
+    //std::cout << listTimingData1000.size() << std::endl;
     // LOOP 3
     for (size_t i = 0; i < Vector10000.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
         auto &vec = Vector10000[i];
         std::vector<int> vecCopy = vec;
-
-        // for debuggin!!
-        // std::cout << "Original vector " << i << ": ";
-        // VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
+        // for (int i = 0; i < vecCopy.size(); i ++)
+        // {
+        //     std::cout << vecCopy[i] << std::endl;
+        // }
+        //std::cout << "Original vector " << i << ": ";
+        //VectorSorter::print_vector(vec); // Print first 3 and last 3 elements
 
         // measuring sorting time
         auto start = std::chrono::high_resolution_clock::now();
+        //std::cout << "past timing" << std::endl;
         VectorSorter::quick_sort(vecCopy);
+        //std::cout << "past initiation" << std::endl;
         auto end = std::chrono::high_resolution_clock::now();
+        //std::cout << vectorTimingData10000.size() << std::endl;
         vectorTimingData10000.push_back(std::chrono::duration<double, std::milli>(end - start).count());
+
 
         // std::cout << "Sorted vector " << i << ": ";
         // VectorSorter::print_vector(vecCopy);
@@ -393,6 +401,8 @@ void Evaluator::QuickComparison()
         {
             list.push_back(val);
         }
+        //std::cout << "past loop 3" << std::endl;
+
 
         // DoublyLinkedList originalList = list;
 
@@ -428,6 +438,7 @@ void Evaluator::MergeComparison()
     std::cout << "\n--- Starting MergeComparison ---\n";
 
     // LOOP 1
+    std::cout << Vector100.size() << std::endl;
     for (size_t i = 0; i < Vector100.size(); ++i)
     {
         // get reference to test vector and create a sorted copy
@@ -598,146 +609,136 @@ void Evaluator::MergeComparison()
     std::cout << "--- MergeComparison Completed ---\n\n";
 }
 
-// void Evaluator::Evaluate()
-// {
-//     Evaluator test;
-//     const std::vector<std::vector<int>> &Vector100 = test.getTestVectors100();
-//     const std::vector<std::vector<int>> &Vector1000 = test.getTestVectors1000();
-//     const std::vector<std::vector<int>> &Vector10000 = test.getTestVectors10000();
+void Evaluator::Evaluate()
+{
+    vectorTimingData10000.clear();
 
-//     const std::vector<std::vector<int>> &List100 = test.getTestLists100();
-//     const std::vector<std::vector<int>> &List1000 = test.getTestLists1000();
-//     const std::vector<std::vector<int>> &List10000 = test.getTestLists10000();
+    Ingest("evaluation_cases.txt");
+    MergeComparison();
+    //std::cout << "MERGE:" << vectorTimingData100.size() << std::endl;
+    InsertionComparison();
+    QuickComparison();
 
-//     const std::vector<std::vector<int>> &vectorTimingData100 = test.getVectorTimingData100();
-//     const std::vector<std::vector<int>> &vectorTimingData1000 = test.getVectorTimingData1000();
-//     const std::vector<std::vector<int>> &vectorTimingData10000 = test.VectorgetTimingData10000();
+    std::cout << "Size of vectorTimingData100: " << vectorTimingData100.size() << std::endl;
+    std::cout << "Size of vectorTimingData1000: " << vectorTimingData1000.size() << std::endl;
+    std::cout << "Size of vectorTimingData10000: " << vectorTimingData10000.size() << std::endl;
 
-//     const std::vector<std::vector<int>> &listTimingData100 = test.getListTimingData100();
-//     const std::vector<std::vector<int>> &listTimingData1000 = test.getListTimingData1000();
-//     const std::vector<std::vector<int>> &listTimingData10000 = test.getListTimingData10000();
-//     test.Ingest("evaluation_cases.txt");
-//     test.MergeComparison();
-//     test.InsertionComparison();
-//     test.QuickComparison();
 
-//     // open the file in order to save output in separate file (so not just in console)
-//     std::ofstream outputFile("comparison_results.txt");
-//     if (!outputFile.is_open())
-//     {
-//         std::cerr << "Error: Unable to open file for writing!" << std::endl;
-//         return;
-//     }
+    //FOR MERGE!! 
+    std::cout << "-------------------------------------Time of Comparisons (MERGE)-------------------------------------" << std::endl;
+    std::cout << "---------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "||---------size----------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- ||" << std::endl;
 
-//     // write headers to both the console and file
-//     std::cout << "-------------------------------------Time of Comparisons-------------------------------------" << std::endl;
-//     std::cout << "---------------------------------------------------------------------------------------------" << std::endl;
-//     std::cout << "||------- SORTED LIST ------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- || --------- Sort Used -------- ||" << std::endl;
+    //size 100
+    std::cout << "|-----------100------------ | -------- " << vectorTimingData100[0] << "----------|---------------  Vector  ---------------|" << std::endl;
+    std::cout << "|-----------100------------ | -------- " << vectorTimingData100[1] << "----------|---------------  Vector  ---------------|" << std::endl;
+    std::cout << "|-----------100------------ | -------- " << vectorTimingData100[2] << "----------|---------------  Vector  ---------------|" << std::endl;
+    std::cout << "|-----------100------------ | -------- " << vectorTimingData100[3] << "----------|---------------  Vector  ---------------|" << std::endl;
+ 
+    std::cout << "|-----------100------------- | -------- " << listTimingData100[0] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    std::cout << "|-----------100------------- | -------- " << listTimingData100[1] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    std::cout << "|-----------100------------- | -------- " << listTimingData100[2] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    std::cout << "|-----------100------------- | -------- " << listTimingData100[3] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
+    
+    
+    //size 1000
+    for (int i = 0; i < 4; i++)
+    {
+        std::cout << "|-----------1000------------ | -------- " << vectorTimingData1000[i] << "----------|---------------  Vector  ---------------|" << std::endl;
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        std::cout << "|-----------1000------------- | -------- " << listTimingData1000[i] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    }
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
+    
+    //size 10000
+    for (int i = 0; i < 4; i++)
+    {
+        std::cout << "|-----------10000------------ | -------- " << vectorTimingData10000[i] << "----------|---------------  Vector  ---------------|" << std::endl;
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        std::cout << "|-----------10000------------- | -------- " << listTimingData10000[i] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    }
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
+     
 
-//     outputFile << "-------------------------------------Time of Comparisons-------------------------------------" << std::endl;
-//     outputFile << "---------------------------------------------------------------------------------------------" << std::endl;
-//     outputFile << "||------- SORTED LIST ------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- || --------- Sort Used -------- ||" << std::endl;
+    std::cout << "" <<std::endl;
+    std::cout << "" <<std::endl;
+    //FOR INSERTION!
+    std::cout << "-----------------------------------Time of Comparisons (INSERTION)-----------------------------------" << std::endl;
+    std::cout << "---------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "||---------size----------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- ||" << std::endl;
+    for (int i = 4; i < 8; i++)
+    {
+        std::cout << "|-----------100------------ | -------- " << vectorTimingData100[i] << "----------|---------------  Vector  ---------------|" << std::endl;
+    }
+    for (int i = 4; i < 8; i++)
+    {
+        std::cout << "|-----------100------------- | -------- " << listTimingData100[i] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    }
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
 
-//     for (int i = 0; i < testVectors.size(); i++)
-//     {
-//         std::string print_number = "";
-//         for (int j = 0; j < testVectors[i].size(); j++)
-//         {
-//             print_number += std::to_string(testVectors[i][j]);
-//         }
+    //size 1000
+    for (int i = 4; i < 8; i++)
+    {
+        std::cout << "|-----------1000------------ | -------- " << vectorTimingData1000[i] << "----------|---------------  Vector  ---------------|" << std::endl;
+    }
+    for (int i = 4; i < 8; i++)
+    {
+        std::cout << "|-----------1000------------- | -------- " << listTimingData1000[i] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    }
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
 
-//         auto write_result = [&](double time, const std::string &container_type, const std::string &sort_type)
-//         {
-//             std::ostringstream line;
-//             line << "|--------|---" << print_number << " ---| ------ | -------- "
-//                  << std::fixed << std::setprecision(6) << time
-//                  << " --------|------------- " << container_type << " -------------|------------- " << sort_type << " -----------|";
-//             std::cout << line.str() << std::endl;
-//             outputFile << line.str() << std::endl;
-//         };
+    //size 10000
+    for (int i = 4; i < 8; i++)
+    {
+        std::cout << "|-----------10000------------ | -------- " << vectorTimingData10000[i] << "----------|---------------  Vector  ---------------|" << std::endl;
+    }
+    for (int i = 4; i < 8; i++)
+    {
+        std::cout << "|-----------10000------------- | -------- " << listTimingData10000[i] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    }
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
 
-//         // MERGE sort results
-//         write_result(listTimingData[i][0], "Linked List", "MERGE");
-//         write_result(vectorTimingData[i][0], "Vector", "MERGE");
+    std::cout << "" <<std::endl;
+    std::cout << "" <<std::endl;
+    //FOR QUICK 
+    std::cout << "-------------------------------------Time of Comparisons (QUICK)-------------------------------------" << std::endl;
+    std::cout << "---------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "||---------size----------- | ------- TIME IT TOOK ------- | ------- Vector/Linked List ------- ||" << std::endl;
+    for (int i = 8; i < 12; i++)
+    {
+        std::cout << "|-----------100------------ | -------- " << vectorTimingData100[i] << "----------|---------------  Vector  ---------------|" << std::endl;
+    }
+    for (int i = 8; i < 12; i++)
+    {
+        std::cout << "|-----------100------------- | -------- " << listTimingData100[i] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    }
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
 
-//         // INSERTION sort results
-//         write_result(listTimingData[i + 9][0], "Linked List", "INSERTION");
-//         write_result(vectorTimingData[i + 9][0], "Vector", "INSERTION");
+    //size 1000
+    for (int i = 8; i < 12; i++)
+    {
+        std::cout << "|-----------1000------------ | -------- " << vectorTimingData1000[i] << "----------|---------------  Vector  ---------------|" << std::endl;
+    }
+    for (int i = 8; i < 12; i++)
+    {
+        std::cout << "|-----------1000------------- | -------- " << listTimingData1000[i] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    }
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
 
-//         // QUICK sort results
-//         write_result(listTimingData[i + 18][0], "Linked List", "QUICK");
-//         write_result(vectorTimingData[i + 18][0], "Vector", "QUICK");
+    //size 10000
+    for (int i = 8; i < 12; i++)
+    {
+        std::cout << "|-----------10000------------ | -------- " << vectorTimingData10000[i] << "----------|---------------  Vector  ---------------|" << std::endl;
+    }
+    for (int i = 8; i < 12; i++)
+    {
+        std::cout << "|-----------10000------------- | -------- " << listTimingData10000[i] << "--------|---------------  Linked List  ---------------|" <<  std::endl;
+    }
+    std::cout << "------------------------------------------------------------------------------------------------" << std::endl;
 
-//         std::cout << "-----------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-//         outputFile << "-----------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-//     }
-
-//     // close the file after writing
-//     outputFile.close();
-//     std::cout << "Comparison results saved to 'comparison_results.txt'!" << std::endl;
-// }
-// void Evaluator::Evaluate()
-// {
-//     MergeComparison();
-//     InsertionComparison();
-//     QuickComparison();
-
-// const std::vector<std::vector<int>> &getTestVectors100() const { return Vector100; }
-// const std::vector<std::vector<int>> &getTestVectors1000() const { return Vector1000; }
-// const std::vector<std::vector<int>> &getTestVectors10000() const { return Vector10000; }
-
-// const std::vector<DoublyLinkedList> &getTestLists100() const { return List100; }
-// const std::vector<DoublyLinkedList> &getTestLists1000() const { return List1000; }
-// const std::vector<DoublyLinkedList> &getTestLists10000() const { return List10000; }
-
-// const std::vector<std::vector<double>> &getVectorTimingData100() const { return vectorTimingData100; }
-// const std::vector<std::vector<double>> &getListTimingData100() const { return listTimingData100; }
-
-// const std::vector<std::vector<double>> &getVectorTimingData1000() const { return vectorTimingData1000; }
-// const std::vector<std::vector<double>> &getListTimingData1000() const { return listTimingData1000; }
-
-// const std::vector<std::vector<double>> &getVectorTimingData10000() const { return vectorTimingData10000; }
-// const std::vector<std::vector<double>> &getListTimingData10000() const { return listTimingData10000; }
-
-//     // open the CSV file for output (use a unique file name for each run, e.g., "run1.csv")
-//     std::ofstream outputFile("run10.csv");
-//     if (!outputFile.is_open())
-//     {
-//         std::cerr << "Error: Unable to open file for writing!" << std::endl;
-//         return;
-//     }
-
-//     // write the CSV headers
-//     outputFile << "Case,Data Structure,Sort Type,Time (Seconds)" << std::endl;
-
-//     for (int i = 0; i < testVectors.size(); i++)
-//     {
-//         std::string case_number = "";
-//         for (int j = 0; j < testVectors[i].size(); j++)
-//         {
-//             case_number += std::to_string(testVectors[i][j]);
-//         }
-
-//         // write each result to the CSV file
-//         auto write_result = [&](double time, const std::string &container_type, const std::string &sort_type)
-//         {
-//             outputFile << case_number << "," << container_type << "," << sort_type << "," << std::fixed << std::setprecision(6) << time << std::endl;
-//         };
-
-//         // MERGE sort results
-//         write_result(listTimingData[i][0], "Linked List", "MERGE");
-//         write_result(vectorTimingData[i][0], "Vector", "MERGE");
-
-//         // INSERTION sort results
-//         write_result(listTimingData[i + 9][0], "Linked List", "INSERTION");
-//         write_result(vectorTimingData[i + 9][0], "Vector", "INSERTION");
-
-//         // QUICK sort results
-//         write_result(listTimingData[i + 18][0], "Linked List", "QUICK");
-//         write_result(vectorTimingData[i + 18][0], "Vector", "QUICK");
-//     }
-
-//     // close the file after writing
-//     outputFile.close();
-//     std::cout << "Comparison results saved to 'run10.csv'!" << std::endl;
-// }
+}

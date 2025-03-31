@@ -135,6 +135,7 @@ void VectorSorter::quick_sort(std::vector<int> &vec)
 {
     // this function starts the recursive process
     quick_sort_helper(vec, 0, vec.size() - 1);
+    //std::cout << "on other side" << std::endl;
 }
 
 void VectorSorter::quick_sort_helper(std::vector<int> &vec, int left, int right)
